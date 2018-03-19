@@ -3,6 +3,7 @@ package com.dev.ironman.news.di.modules
 import com.dev.ironman.news.Router
 import com.dev.ironman.news.mvp.presenters.AllNewsFragmentPresenter
 import com.dev.ironman.news.mvp.presenters.MainActivityPresenter
+import com.dev.ironman.news.mvp.presenters.WebFragmentPresenter
 import com.dev.ironman.news.rest.RestInteractor
 import com.dev.ironman.news.rest.RestService
 import dagger.Module
@@ -27,6 +28,10 @@ class MainModule {
     @Provides
     @Singleton
     fun provideAllNewsFragmentPresenter(restInteractor: RestInteractor) = AllNewsFragmentPresenter(restInteractor)
+
+    @Provides
+    @Singleton
+    fun provideWebFragmentPresenter() = WebFragmentPresenter()
 
     @Provides
     @Singleton

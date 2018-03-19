@@ -34,6 +34,14 @@
             android:text="Description" />
 
         <TextView
+            android:id="@+id/link"
+            android:autoLink="web"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Autor" />
+
+        <TextView
             android:id="@+id/tvAutor"
             android:textSize="18dp"
             android:layout_width="match_parent"
