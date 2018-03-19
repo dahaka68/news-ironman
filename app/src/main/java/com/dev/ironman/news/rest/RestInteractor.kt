@@ -6,7 +6,7 @@ import io.reactivex.Observable
 import retrofit2.http.Query
 
 
-class RestIteractor(val restService: RestService) {
+class RestInteractor(val restService: RestService) {
 
     fun getHeadLines(country: String,
                      category: String): Observable<NewsHeadLinesResponse> {
