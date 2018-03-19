@@ -27,7 +27,7 @@ class AllNewsFragmentPresenter(val restInteractor: RestInteractor) : IPresenter<
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {
-                            view?.showAllNews(it.toString())
+                            view?.showAllNews(it.articles)
                             newsDispos.dispose()
                         },
                         {
