@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), RouterTarget, MainActivityView {
     override fun doTransaction(fragment: Fragment) {
         val ft = supportFragmentManager.beginTransaction().apply {
             replace(R.id.frameForFragments, fragment)
-            addToBackStack(null)
+           // addToBackStack(null)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         }
         ft.commit()

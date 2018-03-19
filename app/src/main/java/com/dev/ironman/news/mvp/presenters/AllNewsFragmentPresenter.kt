@@ -15,6 +15,7 @@ class AllNewsFragmentPresenter(val restInteractor: RestInteractor) : IPresenter<
 
     override fun attachView(view: AllNewsFragmentView) {
         this.view = view
+        view.showProgress()
     }
 
     override fun detachView() {
@@ -28,9 +29,11 @@ class AllNewsFragmentPresenter(val restInteractor: RestInteractor) : IPresenter<
                 .subscribe(
                         {
                             view?.showAllNews(it.articles)
+                            view?.hideProgress()
                             newsDispos.dispose()
                         },
                         {
+                            view?.hideProgress()
                             newsDispos.dispose()
                         }
                 )
