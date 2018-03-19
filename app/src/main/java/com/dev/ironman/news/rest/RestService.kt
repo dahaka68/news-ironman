@@ -1,6 +1,8 @@
 package com.dev.ironman.news.rest
 
+import com.dev.ironman.news.API_KEY
 import com.dev.ironman.news.BASE_URL
+import com.dev.ironman.news.HEADER
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,7 +21,7 @@ class RestService {
         httpClient.addInterceptor(logging)
         httpClient.addInterceptor { chain ->
             val original = chain.request()
-            val requestBuilder = original.newBuilder().header("X-Api-Key", "ed410f2fab8a4663a19c5d2e8fe6850a")
+            val requestBuilder = original.newBuilder().header(HEADER, API_KEY)
             val request = requestBuilder.build()
             chain.proceed(request)
         }
