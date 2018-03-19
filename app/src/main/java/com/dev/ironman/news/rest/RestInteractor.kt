@@ -10,7 +10,7 @@ class RestInteractor(val restService: RestService) {
 
     fun getHeadLines(country: String,
                      category: String): Observable<NewsHeadLinesResponse> {
-        return restService.getRestApi().getHeadLines(country, category, API_KEY)
+        return restService.getRestApi().getHeadLines(country, category)
     }
 
 }

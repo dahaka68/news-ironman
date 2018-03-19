@@ -48,7 +48,7 @@ class AllNewsAdapter : RecyclerView.Adapter<AllNewsAdapter.NewHolder>() {
             cardView.tvAutor.text = "Author: ${new?.author}"
             cardView.tvDescription.text = new?.description
             cardView.tvTitle.text = new?.title
-           // cardView.link.text=new?.url
+            cardView.link.text=new?.url
             Picasso.with(context)
                     .load(new?.urlToImage)
                     .placeholder(R.mipmap.ic_nophoto)

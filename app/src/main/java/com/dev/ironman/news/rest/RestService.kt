@@ -17,12 +17,12 @@ class RestService {
         logging.level = HttpLoggingInterceptor.Level.BODY
 
         httpClient.addInterceptor(logging)
-//        httpClient.addInterceptor { chain ->
-//            val original = chain.request()
-//            val requestBuilder = original.newBuilder().addHeader("apiKey", "ed410f2fab8a4663a19c5d2e8fe6850a")
-//            val request = requestBuilder.build()
-//            chain.proceed(request)
-//        }
+        httpClient.addInterceptor { chain ->
+            val original = chain.request()
+            val requestBuilder = original.newBuilder().header("X-Api-Key", "ed410f2fab8a4663a19c5d2e8fe6850a")
+            val request = requestBuilder.build()
+            chain.proceed(request)
+        }
 
         val gson = GsonBuilder().setLenient().create()
         val retrofit = Retrofit.Builder()
