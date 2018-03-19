@@ -4,5 +4,5 @@ import android.support.v4.app.Fragment
 
 interface RouterTarget {
 
-    fun doTransaction(fragment: Fragment)
+    fun doTransaction(fragment: Fragment, addToBackStack: Boolean)
 }

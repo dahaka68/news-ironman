@@ -13,6 +13,6 @@ class Router() {
     }
 
     fun showAllNewsFragment() {
-        routerTarget.doTransaction(AllNewsFragment())
+        routerTarget.doTransaction(AllNewsFragment(), false)
     }
 }
