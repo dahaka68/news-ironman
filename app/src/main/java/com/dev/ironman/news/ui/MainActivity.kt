@@ -2,15 +2,14 @@ package com.dev.ironman.news.ui
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
+import android.support.v4.app.FragmentManager
 import com.dev.ironman.news.App
 import com.dev.ironman.news.R
 import com.dev.ironman.news.mvp.presenters.MainActivityPresenter
 import com.dev.ironman.news.mvp.views.MainActivityView
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), RouterTarget, MainActivityView {
+class MainActivity : AppCompatActivity(), MainActivityView {
 
     @Inject
     lateinit var mainPresenter: MainActivityPresenter
@@ -32,12 +31,8 @@ class MainActivity : AppCompatActivity(), RouterTarget, MainActivityView {
         mainPresenter.detachView()
     }
 
-    override fun doTransaction(fragment: Fragment, addToBackStack: Boolean) {
-        val ft = supportFragmentManager.beginTransaction().apply {
-            replace(R.id.frameForFragments, fragment)
-            if (addToBackStack) addToBackStack(null)
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-        }
-        ft.commit()
+    override fun fragmentManager(): FragmentManager {
+        return supportFragmentManager
     }
+
 }

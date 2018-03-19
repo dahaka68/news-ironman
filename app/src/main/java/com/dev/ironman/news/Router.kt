@@ -1,18 +1,24 @@
 package com.dev.ironman.news
 
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import com.dev.ironman.news.ui.AllNewsFragment
-import com.dev.ironman.news.ui.RouterTarget
-
 
 class Router {
 
-    lateinit var routerTarget: RouterTarget
-
-    fun initWith(routerTarget: RouterTarget) {
-        this.routerTarget = routerTarget
-    }
+    lateinit var fragmentManager: FragmentManager
 
     fun showAllNewsFragment() {
-        routerTarget.doTransaction(AllNewsFragment(), false)
+        doTransaction(AllNewsFragment(), false)
+    }
+
+    fun doTransaction(fragment: Fragment, addToBackStack: Boolean) {
+        val ft = fragmentManager.beginTransaction().apply {
+            replace(R.id.frameForFragments, fragment)
+            if (addToBackStack) addToBackStack(null)
+            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        }
+        ft.commit()
     }
 }
