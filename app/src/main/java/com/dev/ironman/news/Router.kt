@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import com.dev.ironman.news.ui.AllNewsFragment
+import com.dev.ironman.news.ui.WebViewFragment
 
 class Router {
 
@@ -13,7 +14,11 @@ class Router {
         doTransaction(AllNewsFragment(), false)
     }
 
-    fun doTransaction(fragment: Fragment, addToBackStack: Boolean) {
+    fun showDetailWebViewFragment() {
+        doTransaction(WebViewFragment(), true)
+    }
+
+    private fun doTransaction(fragment: Fragment, addToBackStack: Boolean) {
         val ft = fragmentManager.beginTransaction().apply {
             replace(R.id.frameForFragments, fragment)
             if (addToBackStack) addToBackStack(null)
