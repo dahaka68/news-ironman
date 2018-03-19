@@ -35,12 +35,15 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView {
                               savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_all_news, container, false)
         prB = view.prBar
+
         allNewsFragmentPresenter.attachView(this)
         allNewsFragmentPresenter.showNews()
+
         listOfNews = view.rcvnewstitleslist
         listOfNews.layoutManager = LinearLayoutManager(context)
         adapter = AllNewsAdapter()
         listOfNews.adapter = adapter
+
         return view
     }
 

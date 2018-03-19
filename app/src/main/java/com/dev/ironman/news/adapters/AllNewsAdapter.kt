@@ -1,12 +1,16 @@
 package com.dev.ironman.news.adapters
 
+import android.content.Context
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.dev.ironman.news.App.Companion.daggerComponent
 import com.dev.ironman.news.R
 import com.dev.ironman.news.rest.restModels.ArticlesItem
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.new_holder.view.*
+import javax.inject.Inject
 
 
 class AllNewsAdapter : RecyclerView.Adapter<AllNewsAdapter.NewHolder>() {
@@ -34,10 +38,21 @@ class AllNewsAdapter : RecyclerView.Adapter<AllNewsAdapter.NewHolder>() {
 
     class NewHolder(private val cardView: CardView) : RecyclerView.ViewHolder(cardView) {
 
+        init {
+            daggerComponent.inject(this)
+        }
+        @Inject
+        lateinit var context: Context
+
         fun setNew(new: ArticlesItem?) {
             cardView.tvAutor.text = "Author: ${new?.author}"
             cardView.tvDescription.text = new?.description
             cardView.tvTitle.text = new?.title
+            Picasso.with(context)
+                    .load(new?.urlToImage)
+                    .placeholder(R.mipmap.ic_nophoto)
+                    .error(R.mipmap.ic_error)
+                    .into(cardView.ivPhoto)
         }
     }
 }

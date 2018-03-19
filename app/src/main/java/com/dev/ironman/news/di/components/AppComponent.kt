@@ -2,6 +2,7 @@ package com.dev.ironman.news.di.components
 
 
 import com.dev.ironman.news.App
+import com.dev.ironman.news.adapters.AllNewsAdapter
 import com.dev.ironman.news.di.modules.AppModule
 import com.dev.ironman.news.di.modules.MainModule
 import com.dev.ironman.news.ui.AllNewsFragment
@@ -27,4 +28,6 @@ interface AppComponent {
     fun inject(activity: MainActivity)
 
     fun inject(fragment: AllNewsFragment)
+
+    fun inject(newHolder: AllNewsAdapter.NewHolder) {}
 }
