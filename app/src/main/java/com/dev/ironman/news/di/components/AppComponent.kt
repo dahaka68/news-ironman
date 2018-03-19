@@ -28,6 +28,4 @@ interface AppComponent {
     fun inject(activity: MainActivity)
 
     fun inject(fragment: AllNewsFragment)
-
-    fun inject(newHolder: AllNewsAdapter.NewHolder) {}
 }

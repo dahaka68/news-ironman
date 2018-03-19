@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.dev.ironman.news.App.Companion.daggerComponent
+import com.dev.ironman.news.App
 import com.dev.ironman.news.R
 import com.dev.ironman.news.adapters.AllNewsAdapter
 import com.dev.ironman.news.mvp.presenters.AllNewsFragmentPresenter
@@ -28,7 +28,7 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        daggerComponent.inject(this)
+        App().daggerComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

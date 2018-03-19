@@ -4,7 +4,7 @@ import com.dev.ironman.news.ui.AllNewsFragment
 import com.dev.ironman.news.ui.RouterTarget
 
 
-class Router() {
+class Router {
 
     lateinit var routerTarget: RouterTarget
 
