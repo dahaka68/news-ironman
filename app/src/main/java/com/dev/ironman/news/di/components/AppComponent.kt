@@ -2,11 +2,11 @@ package com.dev.ironman.news.di.components
 
 
 import com.dev.ironman.news.App
-import com.dev.ironman.news.adapters.AllNewsAdapter
 import com.dev.ironman.news.di.modules.AppModule
 import com.dev.ironman.news.di.modules.MainModule
 import com.dev.ironman.news.ui.AllNewsFragment
 import com.dev.ironman.news.ui.MainActivity
+import com.dev.ironman.news.ui.WebViewFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -28,4 +28,6 @@ interface AppComponent {
     fun inject(activity: MainActivity)
 
     fun inject(fragment: AllNewsFragment)
+
+    fun inject(webViewFragment: WebViewFragment) {}
 }

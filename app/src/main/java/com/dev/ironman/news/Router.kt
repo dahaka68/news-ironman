@@ -14,8 +14,10 @@ class Router {
         doTransaction(AllNewsFragment(), false)
     }
 
-    fun showDetailWebViewFragment() {
-        doTransaction(WebViewFragment(), true)
+    fun showDetailWebViewFragment(url: String) {
+        val fragment = WebViewFragment()
+        fragment.setContentUrl(url)
+        doTransaction(fragment, true)
     }
 
     private fun doTransaction(fragment: Fragment, addToBackStack: Boolean) {

@@ -27,7 +27,7 @@ class MainModule {
 
     @Provides
     @Singleton
-    fun provideAllNewsFragmentPresenter(restInteractor: RestInteractor) = AllNewsFragmentPresenter(restInteractor)
+    fun provideAllNewsFragmentPresenter(restInteractor: RestInteractor, router: Router) = AllNewsFragmentPresenter(restInteractor, router)
 
     @Provides
     @Singleton

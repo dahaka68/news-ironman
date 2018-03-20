@@ -17,7 +17,7 @@ import com.dev.ironman.news.rest.restModels.ArticlesItem
 import kotlinx.android.synthetic.main.fragment_all_news.view.*
 import javax.inject.Inject
 
-class AllNewsFragment : Fragment(), AllNewsFragmentView {
+class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
 
     @Inject
     lateinit var allNewsFragmentPresenter: AllNewsFragmentPresenter
@@ -41,7 +41,7 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView {
 
         listOfNews = view.rcvnewstitleslist
         listOfNews.layoutManager = LinearLayoutManager(context)
-        adapter = AllNewsAdapter()
+        adapter = AllNewsAdapter(this)
         listOfNews.adapter = adapter
 
         return view
@@ -67,6 +67,8 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView {
         prB.visibility = View.GONE
     }
 
-
-
+    override fun goToDetail(url: String) {
+        allNewsFragmentPresenter.router.fragmentManager = (activity as MainActivity).supportFragmentManager
+        allNewsFragmentPresenter.goToNewDetails(url)
+    }
 }

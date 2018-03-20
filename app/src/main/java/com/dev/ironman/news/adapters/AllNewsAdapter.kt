@@ -7,23 +7,24 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dev.ironman.news.R
 import com.dev.ironman.news.rest.restModels.ArticlesItem
+import com.dev.ironman.news.ui.IDetail
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.new_holder.view.*
 
-class AllNewsAdapter : RecyclerView.Adapter<AllNewsAdapter.NewHolder>() {
+ class AllNewsAdapter(private val iDetail: IDetail) : RecyclerView.Adapter<AllNewsAdapter.NewHolder>() {
 
     lateinit var listOfNews: List<ArticlesItem?>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewHolder {
         val cv: CardView = (LayoutInflater.from(parent.context).inflate(R.layout.new_holder, parent, false) as CardView)
-        return NewHolder(parent.context, cv)
+        return NewHolder(parent.context, cv, iDetail)
     }
 
     override fun getItemCount(): Int {
-        try {
-            return listOfNews.size
+        return try {
+            listOfNews.size
         } catch (ex: Exception) {
-            return 0
+            0
         }
     }
 
@@ -31,7 +32,7 @@ class AllNewsAdapter : RecyclerView.Adapter<AllNewsAdapter.NewHolder>() {
         holder.setNew(listOfNews[position])
     }
 
-    class NewHolder(val context: Context, private val cardView: CardView) : RecyclerView.ViewHolder(cardView) {
+    class NewHolder(private val context: Context, private val cardView: CardView, private val iDetail: IDetail) : RecyclerView.ViewHolder(cardView) {
 
         fun setNew(new: ArticlesItem?) {
             cardView.tvAutor.text = "Author: ${new?.author}"
@@ -43,6 +44,7 @@ class AllNewsAdapter : RecyclerView.Adapter<AllNewsAdapter.NewHolder>() {
                     .placeholder(R.mipmap.ic_nophoto)
                     .error(R.mipmap.ic_error)
                     .into(cardView.ivPhoto)
+            cardView.linlayNew.setOnClickListener({ iDetail.goToDetail(cardView.link.text.toString()) })
         }
     }
 }

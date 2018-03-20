@@ -1,8 +1,7 @@
 package com.dev.ironman.news.ui
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.FragmentManager
+import android.support.v7.app.AppCompatActivity
 import com.dev.ironman.news.App
 import com.dev.ironman.news.R
 import com.dev.ironman.news.mvp.presenters.MainActivityPresenter
@@ -19,6 +18,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         setContentView(R.layout.activity_main)
 
         App().daggerComponent.inject(this)
+        mainPresenter.router.fragmentManager = supportFragmentManager
     }
 
     override fun onResume() {
@@ -29,10 +29,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     override fun onPause() {
         super.onPause()
         mainPresenter.detachView()
-    }
-
-    override fun fragmentManager(): FragmentManager {
-        return supportFragmentManager
     }
 
 }

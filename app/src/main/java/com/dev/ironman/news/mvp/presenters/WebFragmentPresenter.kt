@@ -9,6 +9,7 @@ class WebFragmentPresenter : IPresenter<WebFragmentView> {
 
     override fun attachView(view: WebFragmentView) {
         this.view = view
+        view.showContent()
     }
 
     override fun detachView() {

@@ -5,10 +5,14 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import com.dev.ironman.news.App
 import com.dev.ironman.news.R
 import com.dev.ironman.news.mvp.presenters.WebFragmentPresenter
 import com.dev.ironman.news.mvp.views.WebFragmentView
+import kotlinx.android.synthetic.main.fragment_web_view.view.*
 import javax.inject.Inject
 
 class WebViewFragment : Fragment(), WebFragmentView {
@@ -16,10 +20,21 @@ class WebViewFragment : Fragment(), WebFragmentView {
     @Inject
     lateinit var webFragPresenter: WebFragmentPresenter
 
+    private lateinit var webView: WebView
+    var url: String = ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App().daggerComponent.inject(this)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                                     savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View? {
+        val view: View = inflater.inflate(R.layout.fragment_web_view, container, false)
+        webView = view.webview
+        webView.webViewClient = SimpleWebViewClient()
         webFragPresenter.attachView(this)
-        return inflater.inflate(R.layout.fragment_web_view, container, false)
+        return view
     }
 
     override fun onDestroyView() {
@@ -27,8 +42,18 @@ class WebViewFragment : Fragment(), WebFragmentView {
         webFragPresenter.detachView()
     }
 
-    override fun showContent(url: String) {
-        //TODO: show content of link
+    override fun showContent() {
+        webView.loadUrl(url)
     }
 
+    fun setContentUrl(url: String) {
+        this.url = url
+    }
+
+    class SimpleWebViewClient : WebViewClient() {
+
+        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+            return false
+        }
+    }
 }
