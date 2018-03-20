@@ -1,5 +1,6 @@
 package com.dev.ironman.news
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
@@ -15,9 +16,11 @@ class Router {
     }
 
     fun showDetailWebViewFragment(url: String) {
-        val fragment = WebViewFragment()
-        fragment.setContentUrl(url)
-        doTransaction(fragment, true)
+        val details = WebViewFragment()
+        val args = Bundle()
+        args.putString("URL", url)
+        details.arguments = args
+        doTransaction(details, true)
     }
 
     private fun doTransaction(fragment: Fragment, addToBackStack: Boolean) {

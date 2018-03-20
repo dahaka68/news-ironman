@@ -21,11 +21,12 @@ class WebViewFragment : Fragment(), WebFragmentView {
     lateinit var webFragPresenter: WebFragmentPresenter
 
     private lateinit var webView: WebView
-    var url: String = ""
+    private var url: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App().daggerComponent.inject(this)
+        url = arguments?.getString("URL") ?: ""
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -44,10 +45,6 @@ class WebViewFragment : Fragment(), WebFragmentView {
 
     override fun showContent() {
         webView.loadUrl(url)
-    }
-
-    fun setContentUrl(url: String) {
-        this.url = url
     }
 
     class SimpleWebViewClient : WebViewClient() {
