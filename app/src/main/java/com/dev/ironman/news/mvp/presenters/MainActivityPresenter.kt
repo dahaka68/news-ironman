@@ -9,11 +9,12 @@ class MainActivityPresenter(val router: Router) : IPresenter<MainActivityView> {
 
     override fun attachView(view: MainActivityView) {
         this.view = view
-      //  router.showAllNewsFragment()
     }
 
     override fun detachView() {
         view = null
     }
+
+
 }
 

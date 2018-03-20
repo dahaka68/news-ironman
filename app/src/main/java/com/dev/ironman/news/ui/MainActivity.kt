@@ -1,11 +1,14 @@
 package com.dev.ironman.news.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.dev.ironman.news.App
 import com.dev.ironman.news.R
 import com.dev.ironman.news.mvp.presenters.MainActivityPresenter
 import com.dev.ironman.news.mvp.views.MainActivityView
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainActivityView {
@@ -16,9 +19,29 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         App().daggerComponent.inject(this)
         mainPresenter.router.fragmentManager = supportFragmentManager
+
+        if (isTabletOrLandScape()) {
+            setLandscapeMode()
+        } else {
+            setPortraitMode()
+        }
+    }
+
+    override fun isTabletOrLandScape(): Boolean {
+        val xlarge = resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_XLARGE
+        val large = resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_LARGE
+        val land=resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+        return xlarge || large || land
+    }
+
+    private fun setPortraitMode() {
+        frameForFragments.visibility = View.GONE
+    }
+
+    private fun setLandscapeMode() {
+        frameForFragments.visibility = View.VISIBLE
     }
 
     override fun onResume() {
