@@ -27,7 +27,7 @@ class Router(val context: Context) {
         doTransaction(details, true, "Det")
     }
 
-    private fun doTransaction(fragment: Fragment, addToBackStack: Boolean, tag:String) {
+    private fun doTransaction(fragment: Fragment, addToBackStack: Boolean, tag: String) {
         val ft = fragmentManager.beginTransaction().apply {
             replace(R.id.frameForFragments, fragment)
             if (addToBackStack) addToBackStack(tag)
@@ -41,4 +41,7 @@ class Router(val context: Context) {
     fun remove() {
         fragmentManager.popBackStack()
     }
+
+    fun isCurFragNews() = fragmentManager.findFragmentById(R.id.frameForFragments) is AllNewsFragment
+
 }

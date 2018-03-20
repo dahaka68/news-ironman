@@ -39,4 +39,11 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         mainPresenter.detachView()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (!isTabletOrLandScape()) {
+            mainPresenter.setFragAllNews()
+        }
+    }
+
 }

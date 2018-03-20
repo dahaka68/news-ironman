@@ -12,10 +12,19 @@ class MainActivityPresenter(val router: Router) : IPresenter<MainActivityView> {
         if (!view.isTabletOrLandScape() && router.isNotFragmentsInConteiner()) {
             router.showAllNewsFragment()
         }
+        if (view.isTabletOrLandScape() && router.isCurFragNews()) {
+            router.remove()
+        }
     }
 
     override fun detachView() {
         view = null
+    }
+
+    fun setFragAllNews(){
+        if ( router.isNotFragmentsInConteiner() ) {
+            router.showAllNewsFragment()
+        }
     }
 }
 
