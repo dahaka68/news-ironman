@@ -17,8 +17,8 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         if (isTabletOrLandScape()) requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        setContentView(R.layout.activity_main)
         App().daggerComponent.inject(this)
         mainPresenter.router.fragmentManager = supportFragmentManager
     }

@@ -12,10 +12,7 @@ class Router(val context: Context) {
 
     lateinit var fragmentManager: FragmentManager
 
-//    var isNewsFragOnScreen=false
-
     fun showAllNewsFragment() {
-//        isNewsFragOnScreen=true
         doTransaction(AllNewsFragment(), true, "All")
     }
 
