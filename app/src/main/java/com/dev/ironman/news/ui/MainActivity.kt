@@ -1,11 +1,11 @@
 package com.dev.ironman.news.ui
 
-import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.dev.ironman.news.App
 import com.dev.ironman.news.R
+import com.dev.ironman.news.daggerComponent
 import com.dev.ironman.news.mvp.presenters.MainActivityPresenter
 import com.dev.ironman.news.mvp.views.MainActivityView
 import javax.inject.Inject
@@ -17,17 +17,15 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (isTabletOrLandScape()) requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         setContentView(R.layout.activity_main)
-        App().daggerComponent.inject(this)
+        daggerComponent.inject(this)
         mainPresenter.router.fragmentManager = supportFragmentManager
     }
 
-    override fun isTabletOrLandScape(): Boolean {
+    override fun isTablet(): Boolean {
         val xlarge = resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_XLARGE
         val large = resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_LARGE
-        val land = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-        return xlarge || large || land
+        return xlarge || large
     }
 
     override fun onResume() {
@@ -42,11 +40,11 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if (!isTabletOrLandScape() && mainPresenter.isNotFragmentsInConteiner()) {
+        if (!isTablet() && mainPresenter.isNotFragmentsInConteiner()) {
             finish()
         }
 
-        if (isTabletOrLandScape()) {
+        if (isTablet()) {
             finish()
         }
     }

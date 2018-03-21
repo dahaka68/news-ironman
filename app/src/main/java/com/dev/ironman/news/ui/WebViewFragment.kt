@@ -12,6 +12,7 @@ import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import com.dev.ironman.news.App
 import com.dev.ironman.news.R
+import com.dev.ironman.news.daggerComponent
 import com.dev.ironman.news.mvp.presenters.WebFragmentPresenter
 import com.dev.ironman.news.mvp.views.WebFragmentView
 import kotlinx.android.synthetic.main.fragment_web_view.view.*
@@ -29,7 +30,7 @@ class WebViewFragment : Fragment(), WebFragmentView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App().daggerComponent.inject(this)
+        daggerComponent.inject(this)
         url = arguments?.getString("URL") ?: ""
     }
 
