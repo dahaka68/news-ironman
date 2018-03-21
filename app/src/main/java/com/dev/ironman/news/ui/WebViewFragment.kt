@@ -5,9 +5,11 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import com.dev.ironman.news.App
 import com.dev.ironman.news.R
 import com.dev.ironman.news.mvp.presenters.WebFragmentPresenter
@@ -22,6 +24,7 @@ class WebViewFragment : Fragment(), WebFragmentView {
     lateinit var webFragPresenter: WebFragmentPresenter
 
     private lateinit var webView: WebView
+    private lateinit var progressBar: FrameLayout
     private var url: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +37,17 @@ class WebViewFragment : Fragment(), WebFragmentView {
                               savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_web_view, container, false)
         webView = view.webview
+        progressBar = view.prBarWeb
         webView.webViewClient = SimpleWebViewClient()
+
+        webView.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView, progress: Int) {
+                if (progress == 100) {
+                    progressBar.visibility = View.GONE
+                }
+            }
+        }
+
         webFragPresenter.attachView(this)
         return view
     }
