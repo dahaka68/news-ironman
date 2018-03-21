@@ -58,7 +58,7 @@ class WebViewFragment : Fragment(), WebFragmentView {
     }
 
     override fun showContent() {
-        webView.loadUrl(url)
+        if (!url.equals("")) webView.loadUrl(url)
     }
 
     class SimpleWebViewClient : WebViewClient() {

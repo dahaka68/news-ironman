@@ -25,6 +25,8 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
     private lateinit var listOfNews: RecyclerView
     private lateinit var adapter: AllNewsAdapter
     private lateinit var prB: FrameLayout
+    private lateinit var linearLayoutManager: LinearLayoutManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +40,9 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
 
         allNewsFragmentPresenter.attachView(this)
         allNewsFragmentPresenter.showNews()
-
+        linearLayoutManager = LinearLayoutManager(context)
         listOfNews = view.rcvnewstitleslist
-        listOfNews.layoutManager = LinearLayoutManager(context)
+        listOfNews.layoutManager = linearLayoutManager
         adapter = AllNewsAdapter(this)
         listOfNews.adapter = adapter
 
