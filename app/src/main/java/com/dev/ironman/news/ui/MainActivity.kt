@@ -45,6 +45,10 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         if (!isTabletOrLandScape() && mainPresenter.isNotFragmentsInConteiner()) {
             finish()
         }
+
+        if (isTabletOrLandScape()) {
+            finish()
+        }
     }
 
 }
