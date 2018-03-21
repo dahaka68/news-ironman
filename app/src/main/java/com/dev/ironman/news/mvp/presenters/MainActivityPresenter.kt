@@ -21,10 +21,6 @@ class MainActivityPresenter(val router: Router) : IPresenter<MainActivityView> {
         view = null
     }
 
-    fun setFragAllNews(){
-        if ( router.isNotFragmentsInConteiner() ) {
-            router.showAllNewsFragment()
-        }
-    }
+    fun isNotFragmentsInConteiner() = router.isNotFragmentsInConteiner()
 }
 

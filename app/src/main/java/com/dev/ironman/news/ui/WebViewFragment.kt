@@ -15,6 +15,7 @@ import com.dev.ironman.news.mvp.views.WebFragmentView
 import kotlinx.android.synthetic.main.fragment_web_view.view.*
 import javax.inject.Inject
 
+
 class WebViewFragment : Fragment(), WebFragmentView {
 
     @Inject
@@ -53,4 +54,14 @@ class WebViewFragment : Fragment(), WebFragmentView {
             return false
         }
     }
+
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        webView.saveState(outState)
+//    }
+//
+//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+//        super.onViewStateRestored(savedInstanceState)
+//        webView.restoreState(savedInstanceState)
+//    }
 }

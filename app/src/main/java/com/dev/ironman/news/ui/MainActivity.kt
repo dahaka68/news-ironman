@@ -1,5 +1,6 @@
 package com.dev.ironman.news.ui
 
+import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if (isTabletOrLandScape()) requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         App().daggerComponent.inject(this)
         mainPresenter.router.fragmentManager = supportFragmentManager
     }
@@ -27,7 +29,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         val land = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         return xlarge || large || land
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -41,8 +42,8 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if (!isTabletOrLandScape()) {
-            mainPresenter.setFragAllNews()
+        if (!isTabletOrLandScape() && mainPresenter.isNotFragmentsInConteiner()) {
+            finish()
         }
     }
 
