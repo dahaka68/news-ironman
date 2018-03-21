@@ -1,32 +1,30 @@
-package com.dev.ironman.news.rest.restModels
+package com.dev.ironman.news.data.dbModels
 
 import android.arch.persistence.room.*
-import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "articles")
 data class DBArticlesItem(
         @PrimaryKey(autoGenerate = true)
-        val id: Int = 0,
+        var uid: Int = 0,
 
         @ColumnInfo(name = "publishedAt")
-        val publishedAt: String? = null,
+        var publishedAt: String? = null,
 
         @ColumnInfo(name = "author")
-        val author: String? = null,
+        var author: String? = null,
 
         @ColumnInfo(name = "urlToImage")
-        val urlToImage: String? = null,
+        var urlToImage: String? = null,
 
         @ColumnInfo(name = "description")
-        val description: String? = null,
-
+        var description: String? = null,
+        @Ignore
         @Embedded
-        @ColumnInfo(name = "DBSource")
-        val DBSource: DBSource? = null,
+        var DBSource: DBSource? = null,
 
         @ColumnInfo(name = "title")
-        val title: String? = null,
+        var title: String? = null,
 
         @ColumnInfo(name = "url")
-        val url: String? = null
+        var url: String? = null
 )

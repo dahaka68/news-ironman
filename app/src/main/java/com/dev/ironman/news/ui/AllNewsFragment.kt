@@ -11,6 +11,7 @@ import android.widget.FrameLayout
 import com.dev.ironman.news.App
 import com.dev.ironman.news.R
 import com.dev.ironman.news.adapters.AllNewsAdapter
+import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import com.dev.ironman.news.mvp.presenters.AllNewsFragmentPresenter
 import com.dev.ironman.news.mvp.views.AllNewsFragmentView
 import com.dev.ironman.news.rest.restModels.ArticlesItem
@@ -52,7 +53,7 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView {
         allNewsFragmentPresenter.detachView()
     }
 
-    override fun showAllNews(list: List<ArticlesItem?>?) {
+    override fun showAllNews(list: MutableList<DBArticlesItem>) {
         if (list != null) {
             adapter.listOfNews = list
         }
@@ -66,7 +67,6 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView {
     override fun hideProgress() {
         prB.visibility = View.GONE
     }
-
 
 
 }
