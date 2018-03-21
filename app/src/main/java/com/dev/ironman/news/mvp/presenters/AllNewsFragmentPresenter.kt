@@ -31,6 +31,7 @@ class AllNewsFragmentPresenter(val restInteractor: RestInteractor, val router: R
                         {
                             view?.showAllNews(it.articles)
                             view?.hideProgress()
+                            view?.goToPosition()
                             newsDispos.dispose()
                         },
                         {
@@ -40,7 +41,7 @@ class AllNewsFragmentPresenter(val restInteractor: RestInteractor, val router: R
                 )
     }
 
-    fun goToNewDetails(url: String){
+    fun goToNewDetails(url: String) {
         router.showDetailWebViewFragment(url)
     }
 }
