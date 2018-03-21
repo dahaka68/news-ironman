@@ -38,18 +38,28 @@ class WebViewFragment : Fragment(), WebFragmentView {
         val view: View = inflater.inflate(R.layout.fragment_web_view, container, false)
         webView = view.webview
         progressBar = view.prBarWeb
-        webView.webViewClient = SimpleWebViewClient()
+        setWebViewClients()
+        webFragPresenter.attachView(this)
+        return view
+    }
 
+    private fun setWebViewClients() {
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                return false
+            }
+        }
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, progress: Int) {
                 if (progress == 100) {
-                    progressBar.visibility = View.GONE
+                    webFragPresenter.hideProgress()
                 }
             }
         }
+    }
 
-        webFragPresenter.attachView(this)
-        return view
+    override fun hideProgress() {
+        progressBar.visibility = View.GONE
     }
 
     override fun onDestroyView() {
@@ -58,16 +68,10 @@ class WebViewFragment : Fragment(), WebFragmentView {
     }
 
     override fun showContent() {
-        if (!url.equals("")) webView.loadUrl(url)
+        if (url != "") webView.loadUrl(url)
     }
 
-    class SimpleWebViewClient : WebViewClient() {
-
-        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-            return false
-        }
-    }
-
+    //webViewCache
 //    override fun onSaveInstanceState(outState: Bundle) {
 //        super.onSaveInstanceState(outState)
 //        webView.saveState(outState)

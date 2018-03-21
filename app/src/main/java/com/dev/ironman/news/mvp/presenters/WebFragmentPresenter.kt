@@ -2,7 +2,6 @@ package com.dev.ironman.news.mvp.presenters
 
 import com.dev.ironman.news.mvp.views.WebFragmentView
 
-
 class WebFragmentPresenter : IPresenter<WebFragmentView> {
 
     var view: WebFragmentView? = null
@@ -14,5 +13,9 @@ class WebFragmentPresenter : IPresenter<WebFragmentView> {
 
     override fun detachView() {
         view = null
+    }
+
+    fun hideProgress(){
+        view?.hideProgress()
     }
 }
