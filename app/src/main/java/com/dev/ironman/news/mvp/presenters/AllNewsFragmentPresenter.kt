@@ -12,6 +12,8 @@ class AllNewsFragmentPresenter(val restInteractor: RestInteractor, val router: R
 
     var view: AllNewsFragmentView? = null
 
+    var position = 0
+
     private lateinit var newsDispos: Disposable
 
     override fun attachView(view: AllNewsFragmentView) {

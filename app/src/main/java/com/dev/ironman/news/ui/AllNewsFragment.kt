@@ -26,7 +26,6 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
     private lateinit var adapter: AllNewsAdapter
     private lateinit var prB: FrameLayout
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private var position: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +48,12 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
     }
 
     override fun goToPosition() {
-        linearLayoutManager.scrollToPositionWithOffset(position, 0)
+        linearLayoutManager.scrollToPositionWithOffset(allNewsFragmentPresenter.position, 0)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        savePosition()
         allNewsFragmentPresenter.detachView()
     }
 
@@ -73,8 +73,12 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
     }
 
     override fun goToDetail(url: String) {
-        position = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
+        savePosition()
         allNewsFragmentPresenter.router.fragmentManager = (activity as MainActivity).supportFragmentManager
         allNewsFragmentPresenter.goToNewDetails(url)
+    }
+
+    private fun savePosition() {
+            allNewsFragmentPresenter.position = linearLayoutManager.findFirstVisibleItemPosition()
     }
 }
