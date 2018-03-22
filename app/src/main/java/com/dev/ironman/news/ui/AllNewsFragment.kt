@@ -11,7 +11,7 @@ import android.widget.FrameLayout
 import com.dev.ironman.news.App
 import com.dev.ironman.news.R
 import com.dev.ironman.news.adapters.AllNewsAdapter
-import com.dev.ironman.news.appComponent
+import com.dev.ironman.news.daggerComponent
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import com.dev.ironman.news.mvp.presenters.AllNewsFragmentPresenter
 import com.dev.ironman.news.mvp.views.AllNewsFragmentView
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_all_news.view.*
 import javax.inject.Inject
 import javax.inject.Named
 
-class AllNewsFragment : Fragment(), AllNewsFragmentView {
+class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
 
     @Inject
     lateinit var allNewsFragmentPresenter: AllNewsFragmentPresenter
@@ -28,6 +28,7 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView {
     private lateinit var listOfNews: RecyclerView
     private lateinit var adapter: AllNewsAdapter
     private lateinit var prB: FrameLayout
+    private lateinit var linearLayoutManager: LinearLayoutManager
 
 //    @Inject
 //    @field:Named("1")
@@ -39,7 +40,7 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        appComponent.inject(this)
+        daggerComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -49,17 +50,21 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView {
 
         allNewsFragmentPresenter.attachView(this)
         allNewsFragmentPresenter.showNews()
-
+        linearLayoutManager = LinearLayoutManager(context)
         listOfNews = view.rcvnewstitleslist
-        listOfNews.layoutManager = LinearLayoutManager(context)
-        adapter = AllNewsAdapter()
+        listOfNews.layoutManager = linearLayoutManager
+        adapter = AllNewsAdapter(this)
         listOfNews.adapter = adapter
-
         return view
+    }
+
+    override fun goToPosition() {
+        linearLayoutManager.scrollToPositionWithOffset(allNewsFragmentPresenter.position, 0)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        savePosition()
         allNewsFragmentPresenter.detachView()
     }
 
@@ -76,5 +81,12 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView {
         prB.visibility = View.GONE
     }
 
-
+    override fun goToDetail(url: String) {
+        savePosition()
+        allNewsFragmentPresenter.router.fragmentManager = (activity as MainActivity).supportFragmentManager
+        allNewsFragmentPresenter.goToNewDetails(url)
+    }
+    private fun savePosition() {
+            allNewsFragmentPresenter.position = linearLayoutManager.findFirstVisibleItemPosition()
+    }
 }

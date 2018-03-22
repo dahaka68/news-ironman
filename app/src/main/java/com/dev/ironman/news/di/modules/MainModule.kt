@@ -16,6 +16,7 @@ import com.dev.ironman.news.rest.RestService
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
+import java.security.AccessControlContext
 import javax.inject.Singleton
 
 @Module(includes = [AppModule::class])
@@ -45,7 +46,8 @@ class MainModule {
 
     @Provides
     @Singleton
-    fun provideAllNewsFragmentPresenter(newsDAO: NewsDAO, restInteractor: RestInteractor) = AllNewsFragmentPresenter(newsDAO, restInteractor)
+    fun provideAllNewsFragmentPresenter(newsDAO: NewsDAO, restInteractor: RestInteractor, router: Router)
+            = AllNewsFragmentPresenter(newsDAO, restInteractor, router)
 
     @Provides
     @Singleton
@@ -53,7 +55,7 @@ class MainModule {
 
     @Provides
     @Singleton
-    fun provideRouter() = Router()
+    fun provideRouter(context: Application) = Router(context)
 
     @Singleton
     @Provides

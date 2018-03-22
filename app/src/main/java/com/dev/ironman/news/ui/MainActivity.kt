@@ -1,10 +1,11 @@
 package com.dev.ironman.news.ui
 
-import android.support.v7.app.AppCompatActivity
+import android.content.res.Configuration
 import android.os.Bundle
-import android.support.v4.app.FragmentManager
+import android.support.v7.app.AppCompatActivity
 import com.dev.ironman.news.App
 import com.dev.ironman.news.R
+import com.dev.ironman.news.daggerComponent
 import com.dev.ironman.news.mvp.presenters.MainActivityPresenter
 import com.dev.ironman.news.mvp.views.MainActivityView
 import javax.inject.Inject
@@ -17,8 +18,14 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        daggerComponent.inject(this)
+        mainPresenter.router.fragmentManager = supportFragmentManager
+    }
 
-        App().daggerComponent.inject(this)
+    override fun isTablet(): Boolean {
+        val xlarge = resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_XLARGE
+        val large = resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_LARGE
+        return xlarge || large
     }
 
     override fun onResume() {
@@ -31,8 +38,15 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         mainPresenter.detachView()
     }
 
-    override fun fragmentManager(): FragmentManager {
-        return supportFragmentManager
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (!isTablet() && mainPresenter.isNotFragmentsInConteiner()) {
+            finish()
+        }
+
+        if (isTablet()) {
+            finish()
+        }
     }
 
 }

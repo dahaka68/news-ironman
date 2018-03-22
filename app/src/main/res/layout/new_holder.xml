@@ -8,6 +8,7 @@
     card_view:cardCornerRadius="10dp">
 
     <LinearLayout
+        android:id="@+id/linlayNew"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -36,6 +37,7 @@
         <TextView
             android:id="@+id/link"
             android:autoLink="web"
+            android:textSize="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
