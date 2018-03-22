@@ -6,7 +6,7 @@ import com.dev.ironman.news.rest.restModels.ArticlesItem
 
 interface AllNewsFragmentView {
 
-    fun showAllNews(list: MutableList<DBArticlesItem>)
+    fun showAllNews(list: List<DBArticlesItem>)
 
     fun showProgress()
 

@@ -10,9 +10,11 @@ data class DBSource(
         @ColumnInfo(name = "i_d")
         @PrimaryKey(autoGenerate = true)
         var iD: Int = 0,
+
         @Ignore
         @ColumnInfo(name = "name")
         var name: String? = null,
+
         @Ignore
         @ColumnInfo(name = "id")
         var id: String? = null

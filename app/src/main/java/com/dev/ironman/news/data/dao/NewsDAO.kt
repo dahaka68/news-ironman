@@ -12,12 +12,11 @@ interface NewsDAO {
     fun insertAllArticles(vararg dbArticlesItem: DBArticlesItem)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertArticle(dbArticlesItem: DBArticlesItem)
+    fun insertFavouriteArticle(dbArticlesItem: DBArticlesItem)
 
     @get:Query("SELECT * FROM articles")
-//    fun getAllArticles(): MutableList<DBArticlesItem>
-    val allArticles: MutableList<DBArticlesItem>
+    val allArticles: List<DBArticlesItem>
 
-//    @Query("SELECT * FROM articles")
-//    fun getFavouritesArticles(isFavourites: Boolean): MutableList<DBArticlesItem>
+    @Query("SELECT * FROM articles WHERE favourite LIKE :isFavourites")
+    fun favouritesArticles(isFavourites: Int): List<DBArticlesItem>
 }

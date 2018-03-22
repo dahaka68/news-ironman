@@ -11,12 +11,14 @@ import android.widget.FrameLayout
 import com.dev.ironman.news.App
 import com.dev.ironman.news.R
 import com.dev.ironman.news.adapters.AllNewsAdapter
+import com.dev.ironman.news.appComponent
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import com.dev.ironman.news.mvp.presenters.AllNewsFragmentPresenter
 import com.dev.ironman.news.mvp.views.AllNewsFragmentView
 import com.dev.ironman.news.rest.restModels.ArticlesItem
 import kotlinx.android.synthetic.main.fragment_all_news.view.*
 import javax.inject.Inject
+import javax.inject.Named
 
 class AllNewsFragment : Fragment(), AllNewsFragmentView {
 
@@ -27,9 +29,17 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView {
     private lateinit var adapter: AllNewsAdapter
     private lateinit var prB: FrameLayout
 
+//    @Inject
+//    @field:Named("1")
+//    lateinit var str1: String
+//
+//    @Inject
+//    @field:Named("2")
+//    lateinit var str2: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App().daggerComponent.inject(this)
+        appComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -53,10 +63,8 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView {
         allNewsFragmentPresenter.detachView()
     }
 
-    override fun showAllNews(list: MutableList<DBArticlesItem>) {
-        if (list != null) {
-            adapter.listOfNews = list
-        }
+    override fun showAllNews(list: List<DBArticlesItem>) {
+        adapter.listOfNews = list
         adapter.notifyDataSetChanged()
     }
 

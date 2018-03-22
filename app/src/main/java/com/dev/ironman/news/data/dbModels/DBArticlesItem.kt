@@ -18,7 +18,7 @@ data class DBArticlesItem(
 
         @ColumnInfo(name = "description")
         var description: String? = null,
-        @Ignore
+
         @Embedded
         var DBSource: DBSource? = null,
 
@@ -26,5 +26,8 @@ data class DBArticlesItem(
         var title: String? = null,
 
         @ColumnInfo(name = "url")
-        var url: String? = null
+        var url: String? = null,
+
+        @ColumnInfo(name = "favourite")
+        var favourite: Int? = null
 )

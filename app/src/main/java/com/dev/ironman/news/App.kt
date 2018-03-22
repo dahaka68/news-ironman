@@ -11,8 +11,7 @@ class App : Application() {
     internal val daggerComponent: AppComponent by lazy {
         DaggerAppComponent.builder().application(this).build()
     }
-
-    internal val database: AppDatabase by lazy {
+    internal val appDatabase: AppDatabase by lazy {
         Room.databaseBuilder(this, AppDatabase::class.java, "articles").allowMainThreadQueries().build()
     }
 

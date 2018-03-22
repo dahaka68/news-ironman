@@ -10,5 +10,4 @@ interface AppModule {
 
     @Binds
     fun provideApplication(app: App): Context
-
 }

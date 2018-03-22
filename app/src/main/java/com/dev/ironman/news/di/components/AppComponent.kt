@@ -1,8 +1,8 @@
 package com.dev.ironman.news.di.components
 
 
+import android.app.Application
 import com.dev.ironman.news.App
-import com.dev.ironman.news.adapters.AllNewsAdapter
 import com.dev.ironman.news.di.modules.AppModule
 import com.dev.ironman.news.di.modules.MainModule
 import com.dev.ironman.news.ui.AllNewsFragment
@@ -17,8 +17,9 @@ interface AppComponent {
 
     @Component.Builder
     interface Builder {
+
         @BindsInstance
-        fun application(application: App): Builder
+        fun application(application: Application): Builder
 
         fun build(): AppComponent
     }

@@ -15,6 +15,7 @@ import com.dev.ironman.news.rest.RestInteractor
 import com.dev.ironman.news.rest.RestService
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module(includes = [AppModule::class])
@@ -32,9 +33,19 @@ class MainModule {
     @Singleton
     fun provideMainActivityPresenter(router: Router) = MainActivityPresenter(router)
 
+//    @Provides
+//    @Singleton
+//    @Named("1")
+//    fun provide1() = "1"
+//
+//    @Provides
+//    @Singleton
+//    @Named("2")
+//    fun provide2() = "2"
+
     @Provides
     @Singleton
-    fun provideAllNewsFragmentPresenter(newsRepository: NewsRepository, restInteractor: RestInteractor) = AllNewsFragmentPresenter(newsRepository, restInteractor)
+    fun provideAllNewsFragmentPresenter(newsDAO: NewsDAO, restInteractor: RestInteractor) = AllNewsFragmentPresenter(newsDAO, restInteractor)
 
     @Provides
     @Singleton
@@ -44,17 +55,12 @@ class MainModule {
     @Singleton
     fun provideRouter() = Router()
 
-
-    @Singleton
-    @Provides
-    fun provideRepository() = NewsRepository()
-
     @Singleton
     @Provides
     fun provideNewDao(db: AppDatabase) = db.newsDao()
 
     @Provides
     @Singleton
-    fun provideDb(context: App) =
+    fun provideDb(context: Application) =
             Room.databaseBuilder(context, AppDatabase::class.java, "articles").allowMainThreadQueries().build()
 }
