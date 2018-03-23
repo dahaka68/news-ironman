@@ -9,25 +9,22 @@ data class DBArticlesItem(
         @PrimaryKey(autoGenerate = true)
         var uid: Int = 0,
 
-        @ColumnInfo(name = "publishedAt", typeAffinity = TEXT)
+        @ColumnInfo(name = "publishedAt")
         var publishedAt: String = "",
 
-        @ColumnInfo(name = "author", typeAffinity = TEXT)
+        @ColumnInfo(name = "author")
         var author: String = "",
 
-        @ColumnInfo(name = "urlToImage", typeAffinity = TEXT)
+        @ColumnInfo(name = "urlToImage")
         var urlToImage: String = "",
 
-        @ColumnInfo(name = "description", typeAffinity = TEXT)
+        @ColumnInfo(name = "description")
         var description: String = "",
 
-        @Embedded
-        var DBSource: DBSource = DBSource(0, "", ""),
-
-        @ColumnInfo(name = "title", typeAffinity = TEXT)
+        @ColumnInfo(name = "title")
         var title: String = "",
 
-        @ColumnInfo(name = "url", typeAffinity = TEXT)
+        @ColumnInfo(name = "url")
         var url: String = "",
 
         @ColumnInfo(name = "favourite")

@@ -16,9 +16,6 @@ data class ArticlesItem(
         @field:SerializedName("description")
         val description: String = "",
 
-        @field:SerializedName("source")
-        val source: Source = Source("", ""),
-
         @field:SerializedName("title")
         val title: String = "",
 

@@ -1,6 +1,5 @@
 package com.dev.ironman.news.mvp.presenters
 
-import android.util.Log
 import com.dev.ironman.news.Router
 import com.dev.ironman.news.data.convertRestToDB
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
@@ -46,12 +45,12 @@ class AllNewsFragmentPresenter @Inject constructor(
                             newsDispos.dispose()
                         },
                         {
-                            Log.d("tttt", "\nError")
                             view?.hideProgress()
                             newsDispos.dispose()
                         },
                         {
                             view?.hideProgress()
+                            newsDispos.dispose()
                         }
                 )
     }
