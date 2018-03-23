@@ -17,8 +17,6 @@ import javax.inject.Singleton
 @Singleton
 class NewsRepository @Inject constructor(private val newsDAO: NewsDAO, private val restInteractor: RestInteractor) : NewsDataSource {
 
-    private lateinit var newsDispos: Disposable
-
     override fun getNewsFromBD(): List<DBArticlesItem> {
         val list = mutableListOf<DBArticlesItem>()
         Executors.newSingleThreadExecutor().execute({ list.addAll(newsDAO.allArticles) })
@@ -26,16 +24,18 @@ class NewsRepository @Inject constructor(private val newsDAO: NewsDAO, private v
         return list
     }
 
+    //получаем данные     возвращаем обсервбл
     override fun getHeadLines(country: String, category: String): Observable<NewsHeadLinesResponse> {
         val obs: Observable<NewsHeadLinesResponse>
         if (isNetWorkAvailable()) {
-            obs = restInteractor.getHeadLines(country, category)
+            obs = restInteractor.getHeadLines(country, category)//из интернета
         } else {
-            obs = Observable.just(convertDBToRest(getNewsFromBD()))
+            obs = Observable.just(convertDBToRest(getNewsFromBD()))//из базы данных
         }
         return obs
     }
 
+    //сохраняем в базу данных
     fun saveInCache(dbArticlesItem: DBArticlesItem){
         newsDAO.insertAllArticles(dbArticlesItem)
     }
