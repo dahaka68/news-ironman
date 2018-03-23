@@ -7,17 +7,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dev.ironman.news.R
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
-import com.dev.ironman.news.ui.IDetail
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.new_holder.view.*
 
- class AllNewsAdapter(private val iDetail: IDetail) : RecyclerView.Adapter<AllNewsAdapter.NewHolder>() {
+class AllNewsAdapter : RecyclerView.Adapter<AllNewsAdapter.NewHolder>() {
 
     lateinit var listOfNews: List<DBArticlesItem>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewHolder {
         val cv: CardView = (LayoutInflater.from(parent.context).inflate(R.layout.new_holder, parent, false) as CardView)
-        return NewHolder(parent.context, cv, iDetail)
+        return NewHolder(parent.context, cv)
     }
 
     override fun getItemCount(): Int {
@@ -32,7 +31,7 @@ import kotlinx.android.synthetic.main.new_holder.view.*
         holder.setNewsItem(listOfNews[position])
     }
 
-    class NewHolder(private val context: Context, private val cardView: CardView, private val iDetail: IDetail) : RecyclerView.ViewHolder(cardView) {
+    class NewHolder(val context: Context, private val cardView: CardView) : RecyclerView.ViewHolder(cardView) {
 
         fun setNewsItem(new: DBArticlesItem) {
             cardView.tvAutor.text = "Author: ${new.author}"
@@ -44,7 +43,6 @@ import kotlinx.android.synthetic.main.new_holder.view.*
                     .placeholder(R.mipmap.ic_nophoto)
                     .error(R.mipmap.ic_error)
                     .into(cardView.ivPhoto)
-            cardView.linlayNew.setOnClickListener({ iDetail.goToDetail(cardView.link.text.toString()) })
         }
     }
 }

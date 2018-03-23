@@ -46,8 +46,8 @@ class MainModule {
 
     @Provides
     @Singleton
-    fun provideAllNewsFragmentPresenter(newsDAO: NewsDAO, restInteractor: RestInteractor, router: Router)
-            = AllNewsFragmentPresenter(newsDAO, restInteractor, router)
+    fun provideAllNewsFragmentPresenter(newsRepository: NewsRepository, router: Router)
+            = AllNewsFragmentPresenter(newsRepository, router)
 
     @Provides
     @Singleton
@@ -64,5 +64,5 @@ class MainModule {
     @Provides
     @Singleton
     fun provideDb(context: Application) =
-            Room.databaseBuilder(context, AppDatabase::class.java, "articles").allowMainThreadQueries().build()
+            Room.databaseBuilder(context, AppDatabase::class.java, "articles").build()
 }

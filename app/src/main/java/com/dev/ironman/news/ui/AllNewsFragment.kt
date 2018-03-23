@@ -8,17 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.dev.ironman.news.App
 import com.dev.ironman.news.R
 import com.dev.ironman.news.adapters.AllNewsAdapter
-import com.dev.ironman.news.daggerComponent
+import com.dev.ironman.news.utils.daggerComponent
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import com.dev.ironman.news.mvp.presenters.AllNewsFragmentPresenter
 import com.dev.ironman.news.mvp.views.AllNewsFragmentView
-import com.dev.ironman.news.rest.restModels.ArticlesItem
 import kotlinx.android.synthetic.main.fragment_all_news.view.*
 import javax.inject.Inject
-import javax.inject.Named
 
 class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
 
@@ -53,7 +50,7 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
         linearLayoutManager = LinearLayoutManager(context)
         listOfNews = view.rcvnewstitleslist
         listOfNews.layoutManager = linearLayoutManager
-        adapter = AllNewsAdapter(this)
+        adapter = AllNewsAdapter()
         listOfNews.adapter = adapter
         return view
     }

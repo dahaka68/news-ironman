@@ -1,24 +1,17 @@
 package com.dev.ironman.news.mvp.presenters
 
-import com.dev.ironman.news.data.convertRestToDB
+import android.util.Log
 import com.dev.ironman.news.Router
-import com.dev.ironman.news.data.dao.NewsDAO
+import com.dev.ironman.news.data.repository.NewsRepository
 import com.dev.ironman.news.mvp.views.AllNewsFragmentView
-import com.dev.ironman.news.rest.RestInteractor
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-
 class AllNewsFragmentPresenter @Inject constructor(
-        private val newsDAO: NewsDAO,
-        private val restInteractor: RestInteractor,
+        private val newsRepository: NewsRepository,
         val router: Router
 ) : IPresenter<AllNewsFragmentView> {
-    var position = 0
 
-    private lateinit var newsDispos: Disposable
+    var position = 0
     var view: AllNewsFragmentView? = null
 
     override fun attachView(view: AllNewsFragmentView) {
@@ -31,22 +24,36 @@ class AllNewsFragmentPresenter @Inject constructor(
     }
 
     fun showNews() {
-        newsDispos = restInteractor.getHeadLines("us", "business")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        {
-                            convertRestToDB(it.articles).forEach { newsDAO.insertAllArticles(it) }
-                            view?.showAllNews(newsDAO.allArticles)
-                            view?.hideProgress()
-                            view?.goToPosition()
-                            newsDispos.dispose()
-                        },
-                        {
-                            view?.hideProgress()
-                            newsDispos.dispose()
-                        }
-                )
+        Log.d("tag", newsRepository.getNews().size.toString())
+//        view?.showAllNews(newsRepository.getNews())
+
+
+//        val list = newsRepository.getNews()
+//        Log.d("list", list.toString())
+//        view?.showAllNews(list)
+//        this.view?.showAllNews(newsRepository.getNewsFromBD(restInteractor))
+//        val list: MutableList<DBArticlesItem> = ArrayList()
+//        Executors.newSingleThreadExecutor().execute({ list.addAll(newsDAO.allArticles) })
+//        if (list.isEmpty()) {
+//            newsDispos = restInteractor.getHeadLines("us", "business")
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(
+//                            {
+//                                convertRestToDB(it.articles).forEach { newsDAO.insertAllArticles(it) }
+//                                view?.showAllNews(newsDAO.allArticles)
+//                                view?.hideProgress()
+//                                view?.goToPosition()
+//                                newsDispos.dispose()
+//                            },
+//                            {
+//                                view?.hideProgress()
+//                                newsDispos.dispose()
+//                            }
+//                    )
+//        } else {
+//            view?.showAllNews(list)
+//        }
     }
 
     fun goToNewDetails(url: String) {

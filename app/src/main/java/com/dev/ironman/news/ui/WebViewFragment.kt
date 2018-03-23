@@ -10,9 +10,8 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
-import com.dev.ironman.news.App
 import com.dev.ironman.news.R
-import com.dev.ironman.news.daggerComponent
+import com.dev.ironman.news.utils.daggerComponent
 import com.dev.ironman.news.mvp.presenters.WebFragmentPresenter
 import com.dev.ironman.news.mvp.views.WebFragmentView
 import kotlinx.android.synthetic.main.fragment_web_view.view.*

@@ -4,5 +4,4 @@ interface IPresenter<in T> {
 
     fun attachView(view: T)
     fun detachView()
-
 }

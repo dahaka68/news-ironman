@@ -13,4 +13,5 @@ interface AllNewsFragmentView {
     fun hideProgress()
 
     fun goToPosition()
+
 }
