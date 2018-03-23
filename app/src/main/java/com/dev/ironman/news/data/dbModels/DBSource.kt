@@ -13,9 +13,9 @@ data class DBSource(
 
         @Ignore
         @ColumnInfo(name = "name")
-        var name: String? = null,
+        var name: String="",
 
         @Ignore
         @ColumnInfo(name = "id")
-        var id: String? = null
+        var id: String=""
 )

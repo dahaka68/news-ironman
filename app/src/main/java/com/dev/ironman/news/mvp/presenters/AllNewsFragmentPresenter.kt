@@ -1,10 +1,11 @@
 package com.dev.ironman.news.mvp.presenters
 
-import com.dev.ironman.news.data.convertRestToDB
 import com.dev.ironman.news.Router
-import com.dev.ironman.news.data.dao.NewsDAO
+import com.dev.ironman.news.data.convertRestToDB
+import com.dev.ironman.news.data.dbModels.DBArticlesItem
+import com.dev.ironman.news.data.repository.NewsRepository
 import com.dev.ironman.news.mvp.views.AllNewsFragmentView
-import com.dev.ironman.news.rest.RestInteractor
+import com.dev.ironman.news.rest.restModels.ArticlesItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -12,8 +13,7 @@ import javax.inject.Inject
 
 
 class AllNewsFragmentPresenter @Inject constructor(
-        private val newsDAO: NewsDAO,
-        private val restInteractor: RestInteractor,
+        private val newsRepository: NewsRepository,
         val router: Router
 ) : IPresenter<AllNewsFragmentView> {
     var position = 0
@@ -31,13 +31,16 @@ class AllNewsFragmentPresenter @Inject constructor(
     }
 
     fun showNews() {
-        newsDispos = restInteractor.getHeadLines("us", "business")
+        newsDispos = newsRepository.getHeadLines("us", "business")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {
-                            convertRestToDB(it.articles).forEach { newsDAO.insertAllArticles(it) }
-                            view?.showAllNews(newsDAO.allArticles)
+                            view?.showAllNews(it.articles)
+                            val dbItems: List<DBArticlesItem> = convertRestToDB(it.articles)
+                            for (item in dbItems) {
+                                newsRepository.saveInCache(item)
+                            }
                             view?.hideProgress()
                             view?.goToPosition()
                             newsDispos.dispose()

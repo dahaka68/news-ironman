@@ -8,26 +8,26 @@ data class DBArticlesItem(
         var uid: Int = 0,
 
         @ColumnInfo(name = "publishedAt")
-        var publishedAt: String? = null,
+        var publishedAt: String = "",
 
         @ColumnInfo(name = "author")
-        var author: String? = null,
+        var author: String = "",
 
         @ColumnInfo(name = "urlToImage")
-        var urlToImage: String? = null,
+        var urlToImage: String = "",
 
         @ColumnInfo(name = "description")
-        var description: String? = null,
+        var description: String = "",
 
         @Embedded
-        var DBSource: DBSource? = null,
+        var DBSource: DBSource = DBSource(0, "", ""),
 
         @ColumnInfo(name = "title")
-        var title: String? = null,
+        var title: String = "",
 
         @ColumnInfo(name = "url")
-        var url: String? = null,
+        var url: String = "",
 
         @ColumnInfo(name = "favourite")
-        var favourite: Int? = null
+        var favourite: Int = 0
 )

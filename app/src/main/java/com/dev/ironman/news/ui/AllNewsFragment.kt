@@ -68,7 +68,7 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
         allNewsFragmentPresenter.detachView()
     }
 
-    override fun showAllNews(list: List<DBArticlesItem>) {
+    override fun showAllNews(list: List<ArticlesItem>) {
         adapter.listOfNews = list
         adapter.notifyDataSetChanged()
     }
