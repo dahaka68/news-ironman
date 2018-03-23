@@ -25,7 +25,7 @@ class AllNewsFragmentPresenter @Inject constructor(
 
     fun showNews() {
         Log.d("tag", newsRepository.getNews().size.toString())
-//        view?.showAllNews(newsRepository.getNews())
+        view?.showAllNews(newsRepository.getNews())
 
 
 //        val list = newsRepository.getNews()
