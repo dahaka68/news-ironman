@@ -9,23 +9,18 @@ import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.FrameLayout
-import com.dev.ironman.news.App
 import com.dev.ironman.news.R
 import com.dev.ironman.news.daggerComponent
 import com.dev.ironman.news.mvp.presenters.WebFragmentPresenter
 import com.dev.ironman.news.mvp.views.WebFragmentView
-import kotlinx.android.synthetic.main.fragment_web_view.view.*
+import kotlinx.android.synthetic.main.fragment_web_view.*
 import javax.inject.Inject
-
 
 class WebViewFragment : Fragment(), WebFragmentView {
 
     @Inject
     lateinit var webFragPresenter: WebFragmentPresenter
 
-    private lateinit var webView: WebView
-    private lateinit var progressBar: FrameLayout
     private var url: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,21 +31,22 @@ class WebViewFragment : Fragment(), WebFragmentView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.fragment_web_view, container, false)
-        webView = view.webview
-        progressBar = view.prBarWeb
+        return inflater.inflate(R.layout.fragment_web_view, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setWebViewClients()
         webFragPresenter.attachView(this)
-        return view
     }
 
     private fun setWebViewClients() {
-        webView.webViewClient = object : WebViewClient() {
+        webview.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 return false
             }
         }
-        webView.webChromeClient = object : WebChromeClient() {
+        webview.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, progress: Int) {
                 if (progress == 100) {
                     webFragPresenter.hideProgress()
@@ -60,7 +56,7 @@ class WebViewFragment : Fragment(), WebFragmentView {
     }
 
     override fun hideProgress() {
-        progressBar.visibility = View.GONE
+        prBarWeb.visibility = View.GONE
     }
 
     override fun onDestroyView() {
@@ -69,7 +65,7 @@ class WebViewFragment : Fragment(), WebFragmentView {
     }
 
     override fun showContent() {
-        if (url != "") webView.loadUrl(url)
+        if (url != "") webview.loadUrl(url)
     }
 
     //webViewCache

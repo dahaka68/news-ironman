@@ -11,7 +11,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-
 class AllNewsFragmentPresenter @Inject constructor(
         val newsRepository: NewsRepository,
         val router: Router
@@ -37,18 +36,10 @@ class AllNewsFragmentPresenter @Inject constructor(
                 .subscribe(
                         {
                             view?.showAllNews(it.articles)
-                            try {
-                                //Log.d("tttt", "\n${it.articles[0]}")
-
-                                val dbItems: List<DBArticlesItem> = convertRestToDB(it.articles)
-
-                                for (item in dbItems) {
-                                    newsRepository.saveInCache(item)//сохраняем данные в кэш
-                                }
-                            }catch (ex: Exception){
-                                Log.d("tttt", "\n${ex.toString()}")
+                            val dbItems: List<DBArticlesItem> = convertRestToDB(it.articles)
+                            for (item in dbItems) {
+                                newsRepository.saveInCache(item)//сохраняем данные в кэш
                             }
-
                             view?.hideProgress()
                             view?.goToPosition()
                             newsDispos.dispose()
@@ -57,6 +48,9 @@ class AllNewsFragmentPresenter @Inject constructor(
                             Log.d("tttt", "\nError")
                             view?.hideProgress()
                             newsDispos.dispose()
+                        },
+                        {
+                            view?.hideProgress()
                         }
                 )
     }
