@@ -15,6 +15,7 @@ class AllNewsFragmentPresenter @Inject constructor(
         val newsRepository: NewsRepository,
         val router: Router
 ) : IPresenter<AllNewsFragmentView> {
+
     var position = 0
 
     private lateinit var newsDispos: Disposable

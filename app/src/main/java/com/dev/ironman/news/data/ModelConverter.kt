@@ -1,6 +1,5 @@
 package com.dev.ironman.news.data
 
-import android.util.Log
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import com.dev.ironman.news.data.dbModels.DBSource
 import com.dev.ironman.news.rest.restModels.ArticlesItem
@@ -16,18 +15,18 @@ fun convertRestToDB(restItems: List<ArticlesItem>): List<DBArticlesItem> {
         list.add(DBArticlesItem(
                 0,
 //                item.source.id.toInt(),
-                "pub",
 //                item.publishedAt,
 //                item.author,
-                "aut",
 //                item.urlToImage,
+//                item.description,
+//                item.title,
+//                item.url,
+                "pub",
+                "aut",
                 "urlIma",
                 "dec",
-//                item.description,
                 DBSource(/*item.source.id.toInt(), item.source.name, item.source.id*/),
                 "t",
-//                item.title,
-                //item.url,
                 "url",
                 0))
     }
@@ -40,13 +39,11 @@ fun convertTOFavourite(item: ArticlesItem): DBArticlesItem {
 }
 
 fun convertDBToRest(dbItems: List<DBArticlesItem>): NewsHeadLinesResponse {
-
     val list: MutableList<ArticlesItem> = ArrayList()
     for (item in dbItems) {
         list.add(ArticlesItem(item.publishedAt, item.author, item.urlToImage, item.description, Source(item.DBSource.id, item.DBSource.name), item.title, item.url))
     }
-    val newsHeadLinesResponse: NewsHeadLinesResponse = NewsHeadLinesResponse(list.size, list, "200")
-    return newsHeadLinesResponse
+    return NewsHeadLinesResponse(list.size, list, "200")
 }
 
 

@@ -14,12 +14,12 @@ import javax.inject.Singleton
 class NewsRepository @Inject constructor(private val newsDAO: NewsDAO, private val restInteractor: RestInteractor) : NewsDataSource {
 
     //получаем данные     возвращаем обсервбл
-    override fun getHeadLines(country: String, category: String): Maybe<NewsHeadLinesResponse> {
-        val obs: Maybe<NewsHeadLinesResponse>
+    override fun getHeadLines(country: String, category: String): Observable<NewsHeadLinesResponse> {
+        val obs: Observable<NewsHeadLinesResponse>
         if (isNetWorkAvailable()) {
             obs = restInteractor.getHeadLines(country, category)//из интернета
         } else {
-            obs = newsDAO.allArticles.map { convertDBToRest(it) }//из базы
+            obs = newsDAO.allArticles.map { convertDBToRest(it) }.toObservable()//из базы
         }
         return obs
     }
