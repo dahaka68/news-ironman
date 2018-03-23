@@ -12,10 +12,10 @@ data class DBSource(
         var iD: Int = 0,
 
         @Ignore
-        @ColumnInfo(name = "name")
-        var name: String="",
+        @ColumnInfo(name = "name", typeAffinity = ColumnInfo.TEXT)
+        var name: String = "",
 
         @Ignore
-        @ColumnInfo(name = "id")
-        var id: String=""
+        @ColumnInfo(name = "id", typeAffinity = ColumnInfo.TEXT)
+        var id: String = ""
 )

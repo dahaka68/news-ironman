@@ -19,8 +19,8 @@ class NewsRepository @Inject constructor(private val newsDAO: NewsDAO, private v
 
     override fun getNewsFromBD(): List<DBArticlesItem> {
         val list = mutableListOf<DBArticlesItem>()
-        Executors.newSingleThreadExecutor().execute({ list.addAll(newsDAO.allArticles) })
-        Log.d("tttt", newsDAO.allArticles.toString())
+       // Executors.newSingleThreadExecutor().execute({ list.addAll(newsDAO.allArticles) })
+        list.addAll(newsDAO.allArticles)
         return list
     }
 
@@ -31,6 +31,11 @@ class NewsRepository @Inject constructor(private val newsDAO: NewsDAO, private v
             obs = restInteractor.getHeadLines(country, category)//из интернета
         } else {
             obs = Observable.just(convertDBToRest(getNewsFromBD()))//из базы данных
+
+//            obs = Observable.create({ e ->
+//                e.onNext(convertDBToRest(getNewsFromBD()))
+//                e.onComplete()
+//            })
         }
         return obs
     }

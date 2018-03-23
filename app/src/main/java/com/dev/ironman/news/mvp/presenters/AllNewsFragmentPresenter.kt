@@ -1,11 +1,11 @@
 package com.dev.ironman.news.mvp.presenters
 
+import android.util.Log
 import com.dev.ironman.news.Router
 import com.dev.ironman.news.data.convertRestToDB
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import com.dev.ironman.news.data.repository.NewsRepository
 import com.dev.ironman.news.mvp.views.AllNewsFragmentView
-import com.dev.ironman.news.rest.restModels.ArticlesItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 
 class AllNewsFragmentPresenter @Inject constructor(
-        private val newsRepository: NewsRepository,
+        val newsRepository: NewsRepository,
         val router: Router
 ) : IPresenter<AllNewsFragmentView> {
     var position = 0
@@ -37,15 +37,24 @@ class AllNewsFragmentPresenter @Inject constructor(
                 .subscribe(
                         {
                             view?.showAllNews(it.articles)
-                            val dbItems: List<DBArticlesItem> = convertRestToDB(it.articles)
-                            for (item in dbItems) {
-                                newsRepository.saveInCache(item)//сохраняем данные в кэш
+                            try {
+                                //Log.d("tttt", "\n${it.articles[0]}")
+
+                                val dbItems: List<DBArticlesItem> = convertRestToDB(it.articles)
+
+                                for (item in dbItems) {
+                                    newsRepository.saveInCache(item)//сохраняем данные в кэш
+                                }
+                            }catch (ex: Exception){
+                                Log.d("tttt", "\n${ex.toString()}")
                             }
+
                             view?.hideProgress()
                             view?.goToPosition()
                             newsDispos.dispose()
                         },
                         {
+                            Log.d("tttt", "\nError")
                             view?.hideProgress()
                             newsDispos.dispose()
                         }
