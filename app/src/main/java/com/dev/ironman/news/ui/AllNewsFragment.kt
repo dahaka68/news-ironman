@@ -27,32 +27,27 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
     private lateinit var prB: FrameLayout
     private lateinit var linearLayoutManager: LinearLayoutManager
 
-//    @Inject
-//    @field:Named("1")
-//    lateinit var str1: String
-//
-//    @Inject
-//    @field:Named("2")
-//    lateinit var str2: String
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         daggerComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.fragment_all_news, container, false)
-        prB = view.prBar
+                              savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_all_news, container, false)
+    }
 
-        allNewsFragmentPresenter.attachView(this)
-        allNewsFragmentPresenter.showNews()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        prB = view.prBar
         linearLayoutManager = LinearLayoutManager(context)
         listOfNews = view.rcvnewstitleslist
         listOfNews.layoutManager = linearLayoutManager
         adapter = AllNewsAdapter()
         listOfNews.adapter = adapter
-        return view
+
+        allNewsFragmentPresenter.attachView(this)
+        allNewsFragmentPresenter.showNews()
     }
 
     override fun goToPosition() {
