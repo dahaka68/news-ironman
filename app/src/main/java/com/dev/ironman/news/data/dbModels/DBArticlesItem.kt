@@ -1,33 +1,30 @@
 package com.dev.ironman.news.data.dbModels
 
+import android.arch.persistence.room.ColumnInfo.*
 import android.arch.persistence.room.*
+
 
 @Entity(tableName = "articles")
 data class DBArticlesItem(
-        @PrimaryKey(autoGenerate = true)
-        var uid: Int = 0,
-
+        @PrimaryKey
         @ColumnInfo(name = "publishedAt")
-        var publishedAt: String? = null,
+        var publishedAt: Long = 0,
 
-        @ColumnInfo(name = "author")
-        var author: String? = null,
+        @ColumnInfo(name = "author", typeAffinity = TEXT)
+        var author: String = "",
 
-        @ColumnInfo(name = "urlToImage")
-        var urlToImage: String? = null,
+        @ColumnInfo(name = "urlToImage", typeAffinity = TEXT)
+        var urlToImage: String = "",
 
-        @ColumnInfo(name = "description")
-        var description: String? = null,
+        @ColumnInfo(name = "description", typeAffinity = TEXT)
+        var description: String = "",
 
-        @Embedded
-        var DBSource: DBSource? = null,
+        @ColumnInfo(name = "title", typeAffinity = TEXT)
+        var title: String = "",
 
-        @ColumnInfo(name = "title")
-        var title: String? = null,
-
-        @ColumnInfo(name = "url")
-        var url: String? = null,
+        @ColumnInfo(name = "url", typeAffinity = TEXT)
+        var url: String = "",
 
         @ColumnInfo(name = "favourite")
-        var favourite: Int? = null
+        var favourite: Int = 0
 )

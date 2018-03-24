@@ -57,6 +57,10 @@ class MainModule {
     @Singleton
     fun provideRouter(context: Application) = Router(context)
 
+    @Provides
+    @Singleton
+    fun provideNewsRepository(newsDAO: NewsDAO, restInteractor: RestInteractor) = NewsRepository(newsDAO, restInteractor)
+
     @Singleton
     @Provides
     fun provideNewDao(db: AppDatabase) = db.newsDao()
