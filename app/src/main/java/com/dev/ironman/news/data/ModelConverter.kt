@@ -9,17 +9,21 @@ import com.dev.ironman.news.rest.restModels.NewsHeadLinesResponse
 
 fun convertRestToDB(restItems: List<ArticlesItem>): List<DBArticlesItem> {
     val list = mutableListOf<DBArticlesItem>()
-    restItems.mapTo(list) {
-//        DBArticlesItem(it.publishedAt.convertDateToLong(), it.author, it.urlToImage, it.description, it.title, it.url, 0)
-        DBArticlesItem(
-                124L, "it.author", "it.urlToImage", "it.description", "it.title",
-                "it.url", 0)
+    try {
+        restItems.mapTo(list) {
+            DBArticlesItem(100L, it?.author ?: "default", it.urlToImage, it.description, it.title, it.url, 0)
+//        DBArticlesItem(124L, "it.author", "it.urlToImage", "it.description", "it.title",
+//                "it.url", 0)
+//    }
+        }
+    } catch (ex: Exception) {
+        Log.d("myLogs", "$ex \n $list")
     }
     return list
 }
 
 fun convertTOFavourite(item: ArticlesItem): DBArticlesItem {
-    return DBArticlesItem(item.publishedAt.convertDateToLong(), item.author, item.urlToImage,
+    return DBArticlesItem(item.publishedAt.convertDateToLong(),item?.author ?: "default", item.urlToImage,
             item.description, item.title, item.url, 1)
 }
 

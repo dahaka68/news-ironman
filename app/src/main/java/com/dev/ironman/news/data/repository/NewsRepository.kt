@@ -1,5 +1,6 @@
 package com.dev.ironman.news.data.repository
 
+import android.util.Log
 import com.dev.ironman.news.data.convertDBToRest
 import com.dev.ironman.news.data.dao.NewsDAO
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
@@ -44,14 +45,18 @@ class NewsRepository @Inject constructor(private val newsDAO: NewsDAO, private v
 //                            it.toString()
 //                        }
 //                )
-        for (item in dbArticlesItemList) {
-            newsDAO.insertAllArticles(item)
+        try {
+            for (item in dbArticlesItemList) {
+                newsDAO.insertAllArticles(item)
+            }
+        }catch (ex: Exception){
+            Log.d("myLogs", "$ex")
         }
     }
 
     //TODO: нужно сделать логику, когда будет из БД, а когда из интернета
     fun isNetWorkAvailable(): Boolean {
-        return true
+        return false
     }
 
 }
