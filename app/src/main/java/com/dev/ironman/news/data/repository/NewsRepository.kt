@@ -29,22 +29,24 @@ class NewsRepository @Inject constructor(private val newsDAO: NewsDAO, private v
     }
 
     //сохраняем в базу данных
-    fun saveInCache(dbArticlesItem: DBArticlesItem) {
-        disp = Observable.just(dbArticlesItem)
-                .subscribeOn(Schedulers.io())
-                .doOnNext(
-                        {
-                            newsDAO.insertAllArticles(it)
-                        })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        {
-                            disp?.dispose()
-                        },
-                        {
-                            it.toString()
-                        }
-                )
+    fun saveInCache(dbArticlesItemList: List<DBArticlesItem>) {
+//        disp = Observable.just(dbArticlesItemList)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(Schedulers.io())
+//                .subscribe(
+//                        {
+//                            for (item in it) {
+//                                newsDAO.insertAllArticles(item)
+//                            }
+//                            disp?.dispose()
+//                        },
+//                        {
+//                            it.toString()
+//                        }
+//                )
+        for (item in dbArticlesItemList) {
+            newsDAO.insertAllArticles(item)
+        }
     }
 
     //TODO: нужно сделать логику, когда будет из БД, а когда из интернета

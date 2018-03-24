@@ -36,10 +36,7 @@ class AllNewsFragmentPresenter @Inject constructor(
                 .subscribe(
                         {
                             view?.showAllNews(it.articles)
-                            val dbItems: List<DBArticlesItem> = convertRestToDB(it.articles)
-                            for (item in dbItems) {
-                                newsRepository.saveInCache(item)//сохраняем данные в кэш
-                            }
+                            newsRepository.saveInCache(convertRestToDB(it.articles))//сохраняем данные в кэш
                             view?.hideProgress()
                             view?.goToPosition()
                             newsDispos.dispose()
