@@ -33,7 +33,7 @@ class Router(val context: Context) {
         ft.commit()
     }
 
-    fun isNotFragmentsInConteiner() = fragmentManager.backStackEntryCount == 0
+    fun isNotFragmentsInContainer() = fragmentManager.backStackEntryCount == 0
 
     fun remove() {
         fragmentManager.popBackStack()

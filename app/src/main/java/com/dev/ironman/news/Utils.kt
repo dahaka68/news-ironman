@@ -3,6 +3,8 @@ package com.dev.ironman.news
 import android.app.Activity
 import android.support.v4.app.Fragment
 import com.dev.ironman.news.di.components.AppComponent
+import java.text.SimpleDateFormat
+import java.util.*
 
 val Fragment.daggerComponent: AppComponent
     get() {
@@ -13,3 +15,7 @@ val Activity.daggerComponent: AppComponent
     get() {
         return (applicationContext as App).daggerComponent
     }
+
+fun String.convertDateToLong() = SimpleDateFormat(DATE_FORMAT).parse(this).time
+
+fun Long.convertLongToString() = SimpleDateFormat(DATE_FORMAT).format(Date(this))

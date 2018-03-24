@@ -9,7 +9,7 @@ class MainActivityPresenter(val router: Router) : IPresenter<MainActivityView> {
 
     override fun attachView(view: MainActivityView) {
         this.view = view
-        if (!view.isTablet() && router.isNotFragmentsInConteiner()) {
+        if (!view.isTablet() && router.isNotFragmentsInContainer()) {
             router.showAllNewsFragment()
         }
         if (view.isTablet() && router.isCurFragNews()) {
@@ -21,6 +21,6 @@ class MainActivityPresenter(val router: Router) : IPresenter<MainActivityView> {
         view = null
     }
 
-    fun isNotFragmentsInConteiner() = router.isNotFragmentsInConteiner()
+    fun isNotFragmentsInConteiner() = router.isNotFragmentsInContainer()
 }
 

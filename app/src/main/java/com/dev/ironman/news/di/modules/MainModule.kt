@@ -53,5 +53,5 @@ class MainModule {
     @Provides
     @Singleton
     fun provideDb(context: Application) =
-            Room.databaseBuilder(context, AppDatabase::class.java, "articles").allowMainThreadQueries().build()
+            Room.databaseBuilder(context, AppDatabase::class.java, "articles").build()
 }

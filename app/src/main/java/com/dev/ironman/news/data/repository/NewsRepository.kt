@@ -5,13 +5,17 @@ import com.dev.ironman.news.data.dao.NewsDAO
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import com.dev.ironman.news.rest.RestInteractor
 import com.dev.ironman.news.rest.restModels.NewsHeadLinesResponse
-import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class NewsRepository @Inject constructor(private val newsDAO: NewsDAO, private val restInteractor: RestInteractor) : NewsDataSource {
+
+    var disp: Disposable? = null
 
     //получаем данные     возвращаем обсервбл
     override fun getHeadLines(country: String, category: String): Observable<NewsHeadLinesResponse> {
@@ -26,12 +30,26 @@ class NewsRepository @Inject constructor(private val newsDAO: NewsDAO, private v
 
     //сохраняем в базу данных
     fun saveInCache(dbArticlesItem: DBArticlesItem) {
-        newsDAO.insertAllArticles(dbArticlesItem)
+        disp = Observable.just(dbArticlesItem)
+                .subscribeOn(Schedulers.io())
+                .doOnNext(
+                        {
+                            newsDAO.insertAllArticles(it)
+                        })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        {
+                            disp?.dispose()
+                        },
+                        {
+                            it.toString()
+                        }
+                )
     }
 
     //TODO: нужно сделать логику, когда будет из БД, а когда из интернета
     fun isNetWorkAvailable(): Boolean {
-        return false
+        return true
     }
 
 }

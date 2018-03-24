@@ -24,9 +24,7 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
         AllNewsAdapter(this)
     }
 
-    private val linearLayoutManager: LinearLayoutManager by lazy{
-        LinearLayoutManager(context)
-    }
+    private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(context)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +53,7 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
     override fun onDestroyView() {
         super.onDestroyView()
         savePosition()
+        rcvnewstitleslist.layoutManager = null
         allNewsFragmentPresenter.detachView()
     }
 
