@@ -29,3 +29,7 @@
 
 # for DexGuard only
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+-keepclassmembernames class kotlinx.** {
+    volatile <fields>;
+}
