@@ -56,7 +56,7 @@ class NewsRepository @Inject constructor(private val newsDAO: NewsDAO, private v
 
     //TODO: нужно сделать логику, когда будет из БД, а когда из интернета
     fun isNetWorkAvailable(): Boolean {
-        return false
+        return true
     }
 
 }

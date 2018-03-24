@@ -16,6 +16,3 @@ val Activity.daggerComponent: AppComponent
         return (applicationContext as App).daggerComponent
     }
 
-fun String.convertDateToLong() = SimpleDateFormat(DATE_FORMAT).parse(this).time
-
-fun Long.convertLongToString() = SimpleDateFormat(DATE_FORMAT).format(Date(this))

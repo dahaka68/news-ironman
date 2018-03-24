@@ -37,6 +37,8 @@ class AllNewsFragmentPresenter @Inject constructor(
                         {
                             view?.showAllNews(it.articles)
                             newsRepository.saveInCache(convertRestToDB(it.articles))//сохраняем данные в кэш
+
+
                             view?.hideProgress()
                             view?.goToPosition()
                             newsDispos.dispose()
