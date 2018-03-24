@@ -8,21 +8,21 @@ import android.arch.persistence.room.*
 data class DBArticlesItem(
         @PrimaryKey
         @ColumnInfo(name = "publishedAt")
-        var publishedAt: Long = 0,
+        var publishedAt: String = "",
 
-        @ColumnInfo(name = "author", typeAffinity = TEXT)
+        @ColumnInfo(name = "author")
         var author: String = "",
 
-        @ColumnInfo(name = "urlToImage", typeAffinity = TEXT)
+        @ColumnInfo(name = "urlToImage")
         var urlToImage: String = "",
 
-        @ColumnInfo(name = "description", typeAffinity = TEXT)
+        @ColumnInfo(name = "description")
         var description: String = "",
 
-        @ColumnInfo(name = "title", typeAffinity = TEXT)
+        @ColumnInfo(name = "title")
         var title: String = "",
 
-        @ColumnInfo(name = "url", typeAffinity = TEXT)
+        @ColumnInfo(name = "url")
         var url: String = "",
 
         @ColumnInfo(name = "favourite")

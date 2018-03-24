@@ -11,9 +11,9 @@ interface NewsDataSource {
 
     fun getNewsFromBD(): Observable<List<DBArticlesItem>>
 
-    fun getHeadLines(country: String, category: String): Observable<NewsHeadLinesResponse>
-
-    fun getNews(country: String, category: String): Observable<List<DBArticlesItem>>
+//    fun getHeadLines(country: String, category: String): Observable<NewsHeadLinesResponse>
+//
+//    fun getNews(country: String, category: String): Observable<List<DBArticlesItem>>
 
 //    fun getNewsFromNetwork(restInteractor: RestInteractor): Observable<NewsHeadLinesResponse>
 
