@@ -35,16 +35,10 @@ class NewsRepository
 
     //метод для забора данных из базы
     override fun getNewsFromBD(): Observable<List<DBArticlesItem>> {
-
-        return newsDAO.getAllArticles().map { it }
+        return newsDAO.getAllArticles().map { it }  // it это  List<DBArticlesItem>
                 .toObservable()
                 .subscribeOn(Schedulers.io())
-                .filter { it.isEmpty() }
-                .doOnNext{requestNewsFromNet("us", "business")}
-                .doOnNext{newsDAO.getAllArticles().map{it}.toObservable()}
                 .observeOn(AndroidSchedulers.mainThread())
-
-
     }
 
 
@@ -63,25 +57,31 @@ class NewsRepository
 //    }
 
     //метод для забора данных из сети в базу
-//    fun requestNewsFromNet(country: String, category: String) {
-//        compositeDisposable.add(restInteractor.getHeadLines(country, category)
-//                .subscribeOn(Schedulers.io())
-//                .doOnNext({ for (t in convertRestToDB(it.articles)) newsDAO.insertAllArticles(t) })
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        { Log.d("onSuccess ", it.articles.size.toString()) },
-//                        { t: Throwable? -> Log.d("onError", t?.message) })
-//        )
-//        compositeDisposable.dispose()
-//    }
-
-    fun requestNewsFromNet(country: String, category: String): Observable<NewsHeadLinesResponse> {
-        return restInteractor.getHeadLines(country, category)
+    fun requestNewsFromNet(country: String, category: String) {
+        compositeDisposable.add(restInteractor.getHeadLines(country, category)
                 .subscribeOn(Schedulers.io())
-//                .doOnNext({ for (t in convertRestToDB(it.articles)) newsDAO.insertAllArticles(t) })
-                .doOnNext({getNewsFromBD()})
+                //пробегаюсь по полученным данным, конвертирую в модель пригодную для бд и заношу туда данные
+                .doOnNext({ for (t in convertRestToDB(it.articles)) newsDAO.insertAllArticles(t) })
                 .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        {
+                            Log.d("onSuccess ", it.articles.size.toString())
+                            compositeDisposable.dispose()
+                        },
+                        { t: Throwable? ->
+                            Log.d("onError", t?.message)
+                            compositeDisposable.dispose()
+                        })
+        )
     }
+
+//    fun requestNewsFromNet(country: String, category: String): Observable<NewsHeadLinesResponse> {
+//        return restInteractor.getHeadLines(country, category)
+//                .subscribeOn(Schedulers.io())
+////                .doOnNext({ for (t in convertRestToDB(it.articles)) newsDAO.insertAllArticles(t) })
+//                .doOnNext({getNewsFromBD()})
+//                .observeOn(AndroidSchedulers.mainThread())
+//    }
 
     //TODO: нужно сделать логику, когда будет из БД, а когда из интернета
     fun isNetWorkAvailable(): Boolean {

@@ -10,7 +10,7 @@ import com.dev.ironman.news.rest.restModels.Source
 fun convertRestToDB(restItems: List<ArticlesItem>): List<DBArticlesItem> {
     val list = mutableListOf<DBArticlesItem>()
     restItems.mapTo(list) {
-        DBArticlesItem(it.publishedAt, "ggg", it.urlToImage, it.description,
+        DBArticlesItem(it.publishedAt, it.author ?: "", it.urlToImage, it.description,
                 it.title, it.url, 0)
     }
     Log.d("converter", list.size.toString())

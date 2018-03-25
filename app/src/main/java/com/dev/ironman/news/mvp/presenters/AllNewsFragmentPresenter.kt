@@ -29,14 +29,15 @@ class AllNewsFragmentPresenter @Inject constructor(
     }
 
     fun showNews() {
-        //        newsRepository.getNewsFromBD()
         newsRepository.requestNewsFromNet("us", "business")
-
+        newsRepository.getNewsFromBD()
+//        newsRepository.requestNewsFromNet("us", "business")
+//
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {
-                            view?.showAllNews(convertRestToDB(it.articles))
+                            view?.showAllNews(it)
                             Log.d("onView", it.toString())
                             view?.hideProgress()
                         },
