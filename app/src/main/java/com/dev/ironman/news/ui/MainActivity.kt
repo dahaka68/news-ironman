@@ -7,6 +7,7 @@ import com.dev.ironman.news.R
 import com.dev.ironman.news.util.daggerComponent
 import com.dev.ironman.news.mvp.presenters.MainActivityPresenter
 import com.dev.ironman.news.mvp.views.MainActivityView
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainActivityView {
@@ -17,6 +18,10 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        setSupportActionBar(anim_toolbar);
+        collapsing_toolbar.setTitle("News Filter");
+
         daggerComponent.inject(this)
         mainPresenter.router.fragmentManager = supportFragmentManager
     }
