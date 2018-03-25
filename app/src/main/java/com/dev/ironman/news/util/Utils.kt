@@ -1,4 +1,4 @@
-package com.dev.ironman.news.utils
+package com.dev.ironman.news.util
 
 import android.app.Activity
 import android.support.v4.app.Fragment

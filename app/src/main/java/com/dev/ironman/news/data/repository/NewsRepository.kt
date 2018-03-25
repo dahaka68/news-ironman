@@ -1,91 +1,51 @@
 package com.dev.ironman.news.data.repository
 
-import android.util.Log
-import com.dev.ironman.news.data.convertRestToDB
+import com.dev.ironman.news.data.convertDBToRest
 import com.dev.ironman.news.data.dao.NewsDAO
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import com.dev.ironman.news.rest.RestInteractor
 import com.dev.ironman.news.rest.restModels.NewsHeadLinesResponse
+import com.dev.ironman.news.util.NetwrorkVerify
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NewsRepository
-@Inject constructor(private val newsDAO: NewsDAO, private val restInteractor: RestInteractor)
-    : NewsDataSource {
-    private lateinit var newsDispos: Disposable
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    val list = mutableListOf<DBArticlesItem>()
+class NewsRepository @Inject constructor(private val newsDAO: NewsDAO,
+                                         private val restInteractor: RestInteractor,
+                                         private val netCheck: NetwrorkVerify) : NewsDataSourcerable {
 
-//    override fun getNewsFromBD(): Observable<List<DBArticlesItem>> {
-//        compositeDisposable.add(Observable.just(1)
-//                .subscribeOn(Schedulers.io())
-//                .doOnNext({ for (t in convertRestToDB(it.articles)) newsDAO.insertAllArticles(t) })
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({
-//                    list.addAll(it)
-//                }))
-//        return
-//    }
-
-    //метод для забора данных из базы
-    override fun getNewsFromBD(): Observable<List<DBArticlesItem>> {
-        return newsDAO.getAllArticles().map { it }  // it это  List<DBArticlesItem>
-                .toObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-    }
+	//получаем данные     возвращаем обсервбл
+	//READ this - I've changed to Koltin style
+	//TODO нужно добавить проверку .isEmpty из сети и базы Ночью сервак не работал и все легло
+	//TODO получается после каждого переворота устройства проверка на сеть, а надо проверять сам сервер, а не сеть
+	override fun getHeadLines(country: String,
+	                          category: String): Observable<NewsHeadLinesResponse> =
+			if (netCheck.checkInternet()) {
+				restInteractor.getHeadLines(country, category)//из интернета
+			} else {
+				newsDAO.allArticles.map { convertDBToRest(it) }.toObservable()//из базы
+			}
 
 
-    //TODO нужно сделать метод который будет проверять данные из базы и если их нет, лезть в сеть и в итоге возвращать Observable
-//    override fun getNews(country: String, category: String): Observable<List<DBArticlesItem>> {
-//        val obs: Observable<List<DBArticlesItem>>
-////        obs = Observable.just(list)
-////                .subscribeOn(Schedulers.io())
-////                .doOnNext { getNewsFromBD().filter { it.isEmpty() }}
-////                .observeOn(AndroidSchedulers.mainThread())
-////
-////
-//getNewsFromBD().repeatWhen {  }
-//        Log.d("DB2 ", list.size.toString())
-//        return obs
-//    }
+	//сохраняем в базу данных
+	//Read this: Simple case of a kotlin coroutine - runBlocking stops the running of method until "join"
+	//that's way we don't use it instead of RX here
+	//it's not good practice but it's the simpliest way now
+	fun saveInCache(dbArticlesItemList: List<DBArticlesItem>) = runBlocking {
+		val writingToDbjob = launch {
+			//TODO try catch were here
+			dbArticlesItemList.forEach { newsDAO.insertAllArticles(it) }
+		}
+		writingToDbjob.join()
+	}
 
-    //метод для забора данных из сети в базу
-    fun requestNewsFromNet(country: String, category: String) {
-        compositeDisposable.add(restInteractor.getHeadLines(country, category)
-                .subscribeOn(Schedulers.io())
-                //пробегаюсь по полученным данным, конвертирую в модель пригодную для бд и заношу туда данные
-                .doOnNext({ for (t in convertRestToDB(it.articles)) newsDAO.insertAllArticles(t) })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        {
-                            Log.d("onSuccess ", it.articles.size.toString())
-                            compositeDisposable.dispose()
-                        },
-                        { t: Throwable? ->
-                            Log.d("onError", t?.message)
-                            compositeDisposable.dispose()
-                        })
-        )
-    }
+	//TODO: нужно сделать логику, когда будет из БД, а когда из интернета
+	// I've added simple method to verify if SIMPLE wifi is, and mobile network (but not internet!)
+	// and it in SaveToCash method
+	//fun isNetWorkAvailable() = netCheck.checkInternet()
 
-//    fun requestNewsFromNet(country: String, category: String): Observable<NewsHeadLinesResponse> {
-//        return restInteractor.getHeadLines(country, category)
-//                .subscribeOn(Schedulers.io())
-////                .doOnNext({ for (t in convertRestToDB(it.articles)) newsDAO.insertAllArticles(t) })
-//                .doOnNext({getNewsFromBD()})
-//                .observeOn(AndroidSchedulers.mainThread())
-//    }
-
-    //TODO: нужно сделать логику, когда будет из БД, а когда из интернета
-    fun isNetWorkAvailable(): Boolean {
-        return false
-    }
 }
 

@@ -8,11 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.dev.ironman.news.R
 import com.dev.ironman.news.adapters.AllNewsAdapter
-import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import com.dev.ironman.news.mvp.presenters.AllNewsFragmentPresenter
 import com.dev.ironman.news.mvp.views.AllNewsFragmentView
 import com.dev.ironman.news.rest.restModels.ArticlesItem
-import com.dev.ironman.news.utils.daggerComponent
+import com.dev.ironman.news.util.daggerComponent
 import kotlinx.android.synthetic.main.fragment_all_news.*
 import javax.inject.Inject
 
@@ -25,9 +24,7 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
         AllNewsAdapter(this)
     }
 
-    private val linearLayoutManager: LinearLayoutManager by lazy {
-        LinearLayoutManager(context)
-    }
+    private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(context)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +39,8 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rcvnewstitleslist.layoutManager = linearLayoutManager
-        rcvnewstitleslist.adapter = adapter
+        rcvnewsTitlesList.layoutManager = linearLayoutManager
+        rcvnewsTitlesList.adapter = adapter
 
         allNewsFragmentPresenter.attachView(this)
         allNewsFragmentPresenter.showNews()
@@ -56,10 +53,12 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
     override fun onDestroyView() {
         super.onDestroyView()
         savePosition()
+        //TODO this !
+        rcvnewsTitlesList.layoutManager = null
         allNewsFragmentPresenter.detachView()
     }
 
-    override fun showAllNews(list: List<DBArticlesItem>) {
+    override fun showAllNews(list: List<ArticlesItem>) {
         adapter.listOfNews = list
         adapter.notifyDataSetChanged()
     }

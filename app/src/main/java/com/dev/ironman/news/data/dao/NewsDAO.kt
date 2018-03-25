@@ -6,8 +6,6 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import io.reactivex.Maybe
-import io.reactivex.Observable
-import io.reactivex.Single
 
 @Dao
 interface NewsDAO {
@@ -17,12 +15,9 @@ interface NewsDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFavouriteArticle(dbArticlesItem: DBArticlesItem)
 
-//    @get:Query("SELECT * FROM articles")
-//    val allArticles: List<DBArticlesItem>
+    @get:Query("SELECT * FROM articles")
+    val allArticles: Maybe<List<DBArticlesItem>>
 
-    @Query("SELECT * FROM articles")
-    fun getAllArticles(): Maybe<List<DBArticlesItem>>
-
-//    @Query("SELECT * FROM articles WHERE favourite LIKE :isFavourites")
-//    fun favouritesArticles(isFavourites: Int): Observable<List<DBArticlesItem>>
+    @Query("SELECT * FROM articles WHERE favourite LIKE :isFavourites")
+    fun favouritesArticles(isFavourites: Int): Maybe<List<DBArticlesItem>>
 }

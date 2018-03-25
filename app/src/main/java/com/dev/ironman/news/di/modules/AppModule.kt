@@ -7,7 +7,6 @@ import dagger.Module
 
 @Module
 interface AppModule {
-
     @Binds
     fun provideApplication(app: App): Context
 }

@@ -6,8 +6,7 @@ import io.reactivex.Observable
 
 class RestInteractor(val restService: RestService) {
 
-    fun getHeadLines(country: String, category: String): Observable<NewsHeadLinesResponse> {
-        return restService.getRestApi().getHeadLines(country, category)
-    }
+	fun getHeadLines(country: String, category: String): Observable<NewsHeadLinesResponse> =
+			restService.getRestApi().getHeadLines(country, category)
 
 }

@@ -6,9 +6,10 @@ import android.arch.persistence.room.*
 
 @Entity(tableName = "articles")
 data class DBArticlesItem(
+
         @PrimaryKey
         @ColumnInfo(name = "publishedAt")
-        var publishedAt: String = "",
+        var publishedAt: Long = 0L,
 
         @ColumnInfo(name = "author")
         var author: String = "",

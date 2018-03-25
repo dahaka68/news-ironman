@@ -1,35 +1,42 @@
 package com.dev.ironman.news.data
 
-import android.util.Log
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
-import com.dev.ironman.news.data.dbModels.DBSource
 import com.dev.ironman.news.rest.restModels.ArticlesItem
 import com.dev.ironman.news.rest.restModels.NewsHeadLinesResponse
-import com.dev.ironman.news.rest.restModels.Source
+import com.dev.ironman.news.util.*
 
-fun convertRestToDB(restItems: List<ArticlesItem>): List<DBArticlesItem> {
-    val list = mutableListOf<DBArticlesItem>()
-    restItems.mapTo(list) {
-        DBArticlesItem(it.publishedAt, it.author ?: "", it.urlToImage, it.description,
-                it.title, it.url, 0)
-    }
-    Log.d("converter", list.size.toString())
-    return list
-//}
-
-//fun convertTOFavourite(item: ArticlesItem): DBArticlesItem {
-//    return DBArticlesItem(item.publishedAt.toLong(), item.author, item.urlToImage,
-//            item.description, item.title, item.url, 1)
-//}
-//
-//fun convertDBToRest(dbItems: List<DBArticlesItem>): NewsHeadLinesResponse {
-//
-//    val list: MutableList<ArticlesItem> = ArrayList()
-//    for (item in dbItems) {
-////        list.add(ArticlesItem(item.publishedAt, item.author, item.urlToImage, item.description, Source(item.DBSource.id, item.DBSource.name), item.title, item.url))
-//    }
-//    val newsHeadLinesResponse: NewsHeadLinesResponse = NewsHeadLinesResponse(list.size, list, "200")
-//    return newsHeadLinesResponse
+fun convertRestToDB(restItems: List<ArticlesItem>) = restItems.map {
+	DBArticlesItem(it.publishedAt?.convertDateToLong() ?: 0L,
+			it.author ?: DEFAULT,
+			it.urlToImage ?: NoIMAGE,
+			it.description ?: NoDESCRIPTION,
+			it.title ?: NoTITLE,
+			it.url ?: NoURL, 0)
 }
 
+fun convertTOFavourite(item: ArticlesItem) =
+		DBArticlesItem(item.publishedAt?.convertDateToLong() ?: 0L,
+				item.author ?: NoAUTHOR,
+				item.urlToImage ?: NoURL,
+				item.description ?: NoDESCRIPTION,
+				item.title ?: NoTITLE,
+				item.url ?: NoURL,
+				1)
+
+
+fun convertDBToRest(dbItems: List<DBArticlesItem>): NewsHeadLinesResponse {
+	val list: MutableList<ArticlesItem> = mutableListOf()
+
+	dbItems.forEach {
+		list.add(ArticlesItem(
+				it.publishedAt.convertLongToString(),
+				it.author,
+				it.urlToImage,
+				it.description,
+				it.title,
+				it.url))
+	}
+
+	return NewsHeadLinesResponse(list)
+}
 
