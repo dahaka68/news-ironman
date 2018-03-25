@@ -1,10 +1,9 @@
-package com.dev.ironman.news
+package com.dev.ironman.news.util
 
 import android.app.Activity
 import android.support.v4.app.Fragment
+import com.dev.ironman.news.App
 import com.dev.ironman.news.di.components.AppComponent
-import java.text.SimpleDateFormat
-import java.util.*
 
 val Fragment.daggerComponent: AppComponent
     get() {

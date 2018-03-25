@@ -11,6 +11,7 @@ import com.dev.ironman.news.mvp.presenters.MainActivityPresenter
 import com.dev.ironman.news.mvp.presenters.WebFragmentPresenter
 import com.dev.ironman.news.rest.RestInteractor
 import com.dev.ironman.news.rest.RestService
+import com.dev.ironman.news.util.NetwrorkVerify
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -44,7 +45,11 @@ class MainModule {
 
     @Provides
     @Singleton
-    fun provideNewsRepository(newsDAO: NewsDAO, restInteractor: RestInteractor) = NewsRepository(newsDAO, restInteractor)
+    fun provideNetworkVerify(context: Application) = NetwrorkVerify(context)
+
+    @Provides
+    @Singleton
+    fun provideNewsRepository(newsDAO: NewsDAO, restInteractor: RestInteractor, netCheck: NetwrorkVerify) = NewsRepository(newsDAO, restInteractor, netCheck)
 
     @Singleton
     @Provides
@@ -53,5 +58,5 @@ class MainModule {
     @Provides
     @Singleton
     fun provideDb(context: Application) =
-            Room.databaseBuilder(context, AppDatabase::class.java, "articles").allowMainThreadQueries().build()
+            Room.databaseBuilder(context, AppDatabase::class.java, "articles").build()
 }

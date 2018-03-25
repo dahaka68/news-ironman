@@ -1,43 +1,42 @@
 package com.dev.ironman.news.data
 
-import android.util.Log
-import com.dev.ironman.news.convertDateToLong
-import com.dev.ironman.news.convertLongToString
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import com.dev.ironman.news.rest.restModels.ArticlesItem
 import com.dev.ironman.news.rest.restModels.NewsHeadLinesResponse
+import com.dev.ironman.news.util.*
 
-fun convertRestToDB(restItems: List<ArticlesItem>): List<DBArticlesItem> {
-    val list = mutableListOf<DBArticlesItem>()
-
-    for(i in restItems){
-        Log.d("TAG", i.toString())
-    }
-
-    try {
-        restItems.mapTo(list) {
-            DBArticlesItem(it.publishedAt.convertDateToLong(), it?.author ?: "default", it.urlToImage, it.description, it.title, it.url, 0)
-
-        }
-    } catch (ex: Exception) {
-        Log.d("myLogs", "$ex \n $list")
-    }
-    return list
+fun convertRestToDB(restItems: List<ArticlesItem>) = restItems.map {
+	DBArticlesItem(it.publishedAt?.convertDateToLong() ?: 0L,
+			it.author ?: DEFAULT,
+			it.urlToImage ?: NoIMAGE,
+			it.description ?: NoDESCRIPTION,
+			it.title ?: NoTITLE,
+			it.url ?: NoURL, 0)
 }
 
-fun convertTOFavourite(item: ArticlesItem): DBArticlesItem {
-    return DBArticlesItem(item.publishedAt.convertDateToLong(),item?.author ?: "default", item.urlToImage,
-            item.description, item.title, item.url, 1)
-}
+fun convertTOFavourite(item: ArticlesItem) =
+		DBArticlesItem(item.publishedAt?.convertDateToLong() ?: 0L,
+				item.author ?: NoAUTHOR,
+				item.urlToImage ?: NoURL,
+				item.description ?: NoDESCRIPTION,
+				item.title ?: NoTITLE,
+				item.url ?: NoURL,
+				1)
+
 
 fun convertDBToRest(dbItems: List<DBArticlesItem>): NewsHeadLinesResponse {
-    val list: MutableList<ArticlesItem> = ArrayList()
-    for (item in dbItems) {
-        list.add(ArticlesItem(item.publishedAt.convertLongToString(), item.author, item.urlToImage, item.description, item.title, item.url))
-    }
-    return NewsHeadLinesResponse(list)
+	val list: MutableList<ArticlesItem> = mutableListOf()
+
+	dbItems.forEach {
+		list.add(ArticlesItem(
+				it.publishedAt.convertLongToString(),
+				it.author,
+				it.urlToImage,
+				it.description,
+				it.title,
+				it.url))
+	}
+
+	return NewsHeadLinesResponse(list)
 }
-
-
-
 

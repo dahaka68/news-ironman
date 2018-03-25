@@ -7,13 +7,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.dev.ironman.news.R
 import com.dev.ironman.news.rest.restModels.ArticlesItem
 import com.dev.ironman.news.ui.IDetail
-
 import kotlinx.android.synthetic.main.new_holder.view.*
-import com.bumptech.glide.request.RequestOptions
-
 
 class AllNewsAdapter(private val iDetail: IDetail) : RecyclerView.Adapter<AllNewsAdapter.NewHolder>() {
 
@@ -31,31 +29,27 @@ class AllNewsAdapter(private val iDetail: IDetail) : RecyclerView.Adapter<AllNew
 		holder.setNewsItem(listOfNews[position])
 	}
 
-	class NewHolder(private val context: Context, private val cardView: CardView, private val iDetail: IDetail) : RecyclerView.ViewHolder(cardView) {
+	class NewHolder(private val contextIn: Context, private val cardView: CardView, private val iDetail: IDetail) : RecyclerView.ViewHolder(cardView) {
 
-		fun setNewsItem(new: ArticlesItem) {
+		fun setNewsItem(news: ArticlesItem) {
 
 			cardView.apply {
-				tvAutor.text = "${context.resources.getString(R.string.Author)} ${new.author}"
-				tvDescription.text = new.description
-				tvTitle.text = new.title
-				link.text = new.url
+				tvAutor.text = "${context.resources.getString(R.string.Author)} ${news.author}"
+				tvDescription.text = news.description
+				tvTitle.text = news.title
+				link.text = news.url
 				linlayNew.setOnClickListener {
 					iDetail.goToDetail(cardView.link.text.toString())
 				}
-			}
 
-			Glide.with(context)
-					.load(new.urlToImage)
-					.apply(RequestOptions()
-							//cash strategy
-							.diskCacheStrategy(DiskCacheStrategy.DATA)
-							.placeholder(R.mipmap.ic_nophoto)
-							.error(R.mipmap.ic_error)
-							.centerCrop()
-							.useAnimationPool(true)
-							.dontTransform())
-					.into(cardView.ivPhoto)
+				Glide.with(contextIn)
+						.load(news.urlToImage)
+						.apply(RequestOptions()
+								.placeholder(R.mipmap.ic_nophoto)
+								.error(R.mipmap.ic_error)
+								.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
+						.into(ivPhoto)
+			}
 		}
 	}
 }

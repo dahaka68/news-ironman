@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.dev.ironman.news.R
 import com.dev.ironman.news.adapters.AllNewsAdapter
-import com.dev.ironman.news.daggerComponent
+import com.dev.ironman.news.util.daggerComponent
 import com.dev.ironman.news.mvp.presenters.AllNewsFragmentPresenter
 import com.dev.ironman.news.mvp.views.AllNewsFragmentView
 import com.dev.ironman.news.rest.restModels.ArticlesItem
@@ -39,8 +39,8 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rcvnewstitleslist.layoutManager = linearLayoutManager
-        rcvnewstitleslist.adapter = adapter
+        rcvnewsTitlesList.layoutManager = linearLayoutManager
+        rcvnewsTitlesList.adapter = adapter
 
         allNewsFragmentPresenter.attachView(this)
         allNewsFragmentPresenter.showNews()
@@ -53,7 +53,8 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
     override fun onDestroyView() {
         super.onDestroyView()
         savePosition()
-        rcvnewstitleslist.layoutManager = null
+        //TODO this !
+        rcvnewsTitlesList.layoutManager = null
         allNewsFragmentPresenter.detachView()
     }
 

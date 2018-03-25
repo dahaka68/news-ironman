@@ -5,22 +5,22 @@ import com.dev.ironman.news.mvp.views.MainActivityView
 
 class MainActivityPresenter(val router: Router) : IPresenter<MainActivityView> {
 
-    var view: MainActivityView? = null
+	var view: MainActivityView? = null
 
-    override fun attachView(view: MainActivityView) {
-        this.view = view
-        if (!view.isTablet() && router.isNotFragmentsInContainer()) {
-            router.showAllNewsFragment()
-        }
-        if (view.isTablet() && router.isCurFragNews()) {
-            router.remove()
-        }
-    }
+	override fun attachView(view: MainActivityView) {
+		this.view = view
+		if (!view.isTablet() && router.isNotFragmentsInContainer()) {
+			router.showAllNewsFragment()
+		}
+		else if (view.isTablet() && router.isCurFragNews()) {
+			router.remove()
+		}
+	}
 
-    override fun detachView() {
-        view = null
-    }
+	override fun detachView() {
+		view = null
+	}
 
-    fun isNotFragmentsInConteiner() = router.isNotFragmentsInContainer()
+	fun isNotFragmentsInContainer() = router.isNotFragmentsInContainer()
 }
 

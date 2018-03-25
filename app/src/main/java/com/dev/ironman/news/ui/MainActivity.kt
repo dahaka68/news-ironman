@@ -3,9 +3,8 @@ package com.dev.ironman.news.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.dev.ironman.news.App
 import com.dev.ironman.news.R
-import com.dev.ironman.news.daggerComponent
+import com.dev.ironman.news.util.daggerComponent
 import com.dev.ironman.news.mvp.presenters.MainActivityPresenter
 import com.dev.ironman.news.mvp.views.MainActivityView
 import javax.inject.Inject
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if (!isTablet() && mainPresenter.isNotFragmentsInConteiner()) {
+        if (!isTablet() && mainPresenter.isNotFragmentsInContainer()) {
             finish()
         }
 
