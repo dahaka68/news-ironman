@@ -4,6 +4,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Author">Author</string>
+    <string name="author_form">unknown</string>
 
     <string-array name="countries">
         <item>ae</item>

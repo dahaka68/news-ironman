@@ -15,41 +15,41 @@ import kotlinx.android.synthetic.main.new_holder.view.*
 
 class AllNewsAdapter(private val iDetail: IDetail) : RecyclerView.Adapter<AllNewsAdapter.NewHolder>() {
 
-	lateinit var listOfNews: List<ArticlesItem>
+    lateinit var listOfNews: List<ArticlesItem>
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewHolder {
-		val cv: CardView = (LayoutInflater.from(parent.context).inflate(R.layout.new_holder, parent, false) as CardView)
-		return NewHolder(parent.context, cv, iDetail)
-	}
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewHolder {
+        val cv: CardView = (LayoutInflater.from(parent.context).inflate(R.layout.new_holder, parent, false) as CardView)
+        return NewHolder(parent.context, cv, iDetail)
+    }
 
-	override fun getItemCount() = if (this::listOfNews.isInitialized) listOfNews.size else 0
+    override fun getItemCount() = if (this::listOfNews.isInitialized) listOfNews.size else 0
 
 
-	override fun onBindViewHolder(holder: NewHolder, position: Int) {
-		holder.setNewsItem(listOfNews[position])
-	}
+    override fun onBindViewHolder(holder: NewHolder, position: Int) {
+        holder.setNewsItem(listOfNews[position])
+    }
 
-	class NewHolder(private val contextIn: Context, private val cardView: CardView, private val iDetail: IDetail) : RecyclerView.ViewHolder(cardView) {
+    class NewHolder(private val contextIn: Context, private val cardView: CardView, private val iDetail: IDetail) : RecyclerView.ViewHolder(cardView) {
 
-		fun setNewsItem(news: ArticlesItem) {
+        fun setNewsItem(news: ArticlesItem) {
 
-			cardView.apply {
-				tvAutor.text = "${context.resources.getString(R.string.Author)} ${news.author}"
-				tvDescription.text = news.description
-				tvTitle.text = news.title
-				link.text = news.url
-				linlayNew.setOnClickListener {
-					iDetail.goToDetail(cardView.link.text.toString())
-				}
+            cardView.apply {
+                tvAutor.text = "${context.resources.getString(R.string.Author)} ${news?.author ?: context.getString(R.string.author_form)}"
+                tvDescription.text = news.description
+                tvTitle.text = news.title
+                link.text = news.url
+                linlayNew.setOnClickListener {
+                    iDetail.goToDetail(cardView.link.text.toString())
+                }
 
-				Glide.with(contextIn)
-						.load(news.urlToImage)
-						.apply(RequestOptions()
-								.placeholder(R.mipmap.ic_nophoto)
-								.error(R.mipmap.ic_error)
-								.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
-						.into(ivPhoto)
-			}
-		}
-	}
+                Glide.with(contextIn)
+                        .load(news.urlToImage)
+                        .apply(RequestOptions()
+                                .placeholder(R.mipmap.ic_nophoto)
+                                .error(R.mipmap.ic_error)
+                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
+                        .into(ivPhoto)
+            }
+        }
+    }
 }

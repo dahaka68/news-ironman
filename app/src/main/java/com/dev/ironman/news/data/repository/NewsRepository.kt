@@ -46,7 +46,7 @@ class NewsRepository @Inject constructor(private val newsDAO: NewsDAO,
             //TODO try catch were here
             dbArticlesItemList.forEach { newsDAO.insertAllArticles(it) }
         }
-        writingToDbjob.join()
+        writingToDbjob.join() //После выполнения этой строчки кода виснет все приложение
     }
 
     //TODO: нужно сделать логику, когда будет из БД, а когда из интернета
