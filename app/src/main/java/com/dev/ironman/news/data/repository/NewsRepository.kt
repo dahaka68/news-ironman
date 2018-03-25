@@ -26,11 +26,11 @@ class NewsRepository @Inject constructor(private val newsDAO: NewsDAO,
                               category: String): Observable<NewsHeadLinesResponse> =
             if (netCheck.checkInternet()) {
                 if (keyWord.isEmpty() && country.isEmpty() && category.isEmpty()) {
-                    restInteractor.getHeadLines("ru", "general")//из интернета по дефолтным категории и стране
+                    restInteractor.getHeadLines("ru", "general")//из интернета по дефолтным категории и стране если запрос без фильтра
                 } else if (keyWord.isEmpty()) {
-                    restInteractor.getHeadLines(country, category)//из интернета по категории и стране
+                    restInteractor.getHeadLines(country, category)//из интернета по категории и стране из фильтра
                 } else {
-                    restInteractor.getHeadLines(keyWord)//из интернета по ключевому слову
+                    restInteractor.getHeadLines(keyWord)//из интернета по ключевому слову из фильтра
                 }
             } else {
                 newsDAO.allArticles.map { convertDBToRest(it) }.toObservable()//из базы
