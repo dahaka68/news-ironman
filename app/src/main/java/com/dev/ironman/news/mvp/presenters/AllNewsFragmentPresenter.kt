@@ -36,7 +36,7 @@ class AllNewsFragmentPresenter @Inject constructor(val newsRepository: NewsRepos
 	fun showNews() {
 		//ToDO: мы получили параметры q- ключевое слово, country - страна, category - категория
 		// Todo: неоходимо передать их репозиторию, чтобы он достал по этим ключевым словам инфу
-		newsDispos = newsRepository.getHeadLines(country, category)
+		newsDispos = newsRepository.getHeadLines(q, country, category)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(

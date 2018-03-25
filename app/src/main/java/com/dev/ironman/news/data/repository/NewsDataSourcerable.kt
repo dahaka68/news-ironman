@@ -6,5 +6,5 @@ import io.reactivex.Observable
 
 interface NewsDataSourcerable {
 
-    fun getHeadLines(country: String, category: String): Observable<NewsHeadLinesResponse>
+    fun getHeadLines(keyWord: String, country: String, category: String): Observable<NewsHeadLinesResponse>
 }

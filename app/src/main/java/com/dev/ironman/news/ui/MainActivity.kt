@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     }
 
     override fun takeFilterParams(): Map<String, String> {
-
         val map=HashMap<String, String>()
         map.put("category", spCategory.getSelectedItem().toString())
         map.put("country", spCountry.getSelectedItem().toString())
