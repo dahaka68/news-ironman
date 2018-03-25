@@ -21,7 +21,6 @@ class WebViewFragment : Fragment(), WebFragmentView {
 
 	@Inject
 	lateinit var webFragPresenter: WebFragmentPresenter
-
 	lateinit var url: String
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,8 +43,7 @@ class WebViewFragment : Fragment(), WebFragmentView {
 
 	private fun setWebViewClients() {
 		webview.webViewClient = object : WebViewClient() {
-			override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?) =
-					false
+			override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?) = false
 		}
 
 		webview.webChromeClient = object : WebChromeClient() {

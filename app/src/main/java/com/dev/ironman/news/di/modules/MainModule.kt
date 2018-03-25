@@ -2,8 +2,6 @@ package com.dev.ironman.news.di.modules
 
 import android.app.Application
 import android.arch.persistence.room.Room
-import android.content.Context
-import com.dev.ironman.news.App
 import com.dev.ironman.news.Router
 import com.dev.ironman.news.data.dao.AppDatabase
 import com.dev.ironman.news.data.dao.NewsDAO
@@ -13,11 +11,9 @@ import com.dev.ironman.news.mvp.presenters.MainActivityPresenter
 import com.dev.ironman.news.mvp.presenters.WebFragmentPresenter
 import com.dev.ironman.news.rest.RestInteractor
 import com.dev.ironman.news.rest.RestService
-import com.dev.ironman.news.util.NetwrorkVerify
+import com.dev.ironman.news.util.NetworkVerify
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
-import java.security.AccessControlContext
 import javax.inject.Singleton
 
 @Module(includes = [AppModule::class])
@@ -47,8 +43,8 @@ class MainModule {
 
     @Provides
     @Singleton
-    fun provideAllNewsFragmentPresenter(newsRepository: NewsRepository, router: Router)
-            = AllNewsFragmentPresenter(newsRepository, router)
+    fun provideAllNewsFragmentPresenter(newsRepository: NewsRepository, router: Router, netCheck: NetworkVerify)
+            = AllNewsFragmentPresenter(newsRepository, router, netCheck)
 
     @Provides
     @Singleton
@@ -60,11 +56,12 @@ class MainModule {
 
     @Provides
     @Singleton
-    fun provideNetworkVerify(context: Application) = NetwrorkVerify(context)
+    fun provideNetworkVerify(context: Application) = NetworkVerify(context)
 
     @Provides
     @Singleton
-    fun provideNewsRepository(newsDAO: NewsDAO, restInteractor: RestInteractor, netCheck: NetwrorkVerify) = NewsRepository(newsDAO, restInteractor, netCheck)
+    fun provideNewsRepository(newsDAO: NewsDAO, restInteractor: RestInteractor)
+            = NewsRepository(newsDAO, restInteractor)
 
     @Singleton
     @Provides

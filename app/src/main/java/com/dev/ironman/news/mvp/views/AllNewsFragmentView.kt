@@ -6,12 +6,14 @@ import com.dev.ironman.news.rest.restModels.ArticlesItem
 
 interface AllNewsFragmentView {
 
-    fun showAllNews(list: List<ArticlesItem>)
+    fun showAllNews(list: List<DBArticlesItem>)
 
     fun showProgress()
 
     fun hideProgress()
 
     fun goToPosition()
+
+    fun showError(text: String)
 
 }

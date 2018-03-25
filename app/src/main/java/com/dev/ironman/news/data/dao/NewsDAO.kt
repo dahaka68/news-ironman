@@ -16,8 +16,8 @@ interface NewsDAO {
     fun insertFavouriteArticle(dbArticlesItem: DBArticlesItem)
 
     @get:Query("SELECT * FROM articles")
-    val allArticles: Maybe<List<DBArticlesItem>>
+    val allArticles: List<DBArticlesItem>
 
     @Query("SELECT * FROM articles WHERE favourite LIKE :isFavourites")
-    fun favouritesArticles(isFavourites: Int): Maybe<List<DBArticlesItem>>
+    fun favouritesArticles(isFavourites: Int): List<DBArticlesItem>
 }

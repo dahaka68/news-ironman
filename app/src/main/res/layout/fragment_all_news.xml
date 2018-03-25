@@ -1,23 +1,25 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeOnRef"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.dev.ironman.news.ui.AllNewsFragment">
 
-    <FrameLayout
-        android:id="@+id/prBar"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcvnewsTitlesList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <ProgressBar
+            android:id="@+id/prBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-    </FrameLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rcvnewsTitlesList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</FrameLayout>
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

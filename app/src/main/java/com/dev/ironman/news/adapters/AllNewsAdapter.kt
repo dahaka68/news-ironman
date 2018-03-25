@@ -10,13 +10,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.dev.ironman.news.R
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
-import com.dev.ironman.news.rest.restModels.ArticlesItem
 import com.dev.ironman.news.ui.IDetail
 import kotlinx.android.synthetic.main.new_holder.view.*
 
 class AllNewsAdapter(private val iDetail: IDetail) : RecyclerView.Adapter<AllNewsAdapter.NewHolder>() {
 
-	lateinit var listOfNews: List<ArticlesItem>
+	lateinit var listOfNews: List<DBArticlesItem>
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewHolder {
 		val cv: CardView = (LayoutInflater.from(parent.context).inflate(R.layout.new_holder, parent, false) as CardView)
@@ -32,14 +31,14 @@ class AllNewsAdapter(private val iDetail: IDetail) : RecyclerView.Adapter<AllNew
 
 	class NewHolder(private val contextIn: Context, private val cardView: CardView, private val iDetail: IDetail) : RecyclerView.ViewHolder(cardView) {
 
-		fun setNewsItem(news: ArticlesItem) {
+		fun setNewsItem(news: DBArticlesItem) {
 
 			cardView.apply {
-				tvAutor.text = "${context.resources.getString(R.string.Author)} ${news.author}"
+				tvAuthor.text = "${context.resources.getString(R.string.Author)} ${news.author}"
 				tvDescription.text = news.description
 				tvTitle.text = news.title
 				link.text = news.url
-				linlayNew.setOnClickListener {
+				newsContainer.setOnClickListener {
 					iDetail.goToDetail(cardView.link.text.toString())
 				}
 

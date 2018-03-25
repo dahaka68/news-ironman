@@ -7,7 +7,7 @@ import com.dev.ironman.news.util.*
 
 fun convertRestToDB(restItems: List<ArticlesItem>) = restItems.map {
 	DBArticlesItem(it.publishedAt?.convertDateToLong() ?: 0L,
-			it.author ?: DEFAULT,
+			it.author ?: NoAUTHOR,
 			it.urlToImage ?: NoIMAGE,
 			it.description ?: NoDESCRIPTION,
 			it.title ?: NoTITLE,

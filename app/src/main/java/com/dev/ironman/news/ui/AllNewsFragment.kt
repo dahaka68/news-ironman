@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.dev.ironman.news.R
 import com.dev.ironman.news.adapters.AllNewsAdapter
+import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import com.dev.ironman.news.mvp.presenters.AllNewsFragmentPresenter
 import com.dev.ironman.news.mvp.views.AllNewsFragmentView
-import com.dev.ironman.news.rest.restModels.ArticlesItem
+import com.dev.ironman.news.util.ERROR_FROM_NET
+import com.dev.ironman.news.util.NO_INTERNET
 import com.dev.ironman.news.util.daggerComponent
+import com.dev.ironman.news.util.toast
 import kotlinx.android.synthetic.main.fragment_all_news.*
 import javax.inject.Inject
 
@@ -38,12 +41,22 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         rcvnewsTitlesList.layoutManager = linearLayoutManager
         rcvnewsTitlesList.adapter = adapter
-
+        initSwipeToRef()
         allNewsFragmentPresenter.attachView(this)
-        allNewsFragmentPresenter.showNews()
+        allNewsFragmentPresenter.showNews("us", "business", false)
+    }
+
+    private fun initSwipeToRef() {
+        swipeOnRef.setOnRefreshListener {
+            swipeOnRef.isRefreshing = true
+            allNewsFragmentPresenter.showNews("us", "business", true)
+        }
+        swipeOnRef.setColorSchemeResources(android.R.color.holo_blue_dark,
+                android.R.color.holo_blue_light,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_green_light)
     }
 
     override fun goToPosition() {
@@ -58,7 +71,7 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
         allNewsFragmentPresenter.detachView()
     }
 
-    override fun showAllNews(list: List<ArticlesItem>) {
+    override fun showAllNews(list: List<DBArticlesItem>) {
         adapter.listOfNews = list
         adapter.notifyDataSetChanged()
     }
@@ -69,6 +82,14 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
 
     override fun hideProgress() {
         prBar.visibility = View.GONE
+        swipeOnRef.isRefreshing = false
+    }
+
+    override fun showError(text: String) {
+        when (text) {
+            NO_INTERNET -> toast(getString(R.string.no_internet))
+            ERROR_FROM_NET -> toast(getString(R.string.server_error))
+        }
     }
 
     override fun goToDetail(url: String) {
