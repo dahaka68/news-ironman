@@ -15,6 +15,10 @@ class AllNewsFragmentPresenter @Inject constructor(val newsRepository: NewsRepos
 	//TODO  где это используется?
 	var position = 0
 
+	var q = ""
+	var country = ""
+	var category = ""
+
 	private lateinit var newsDispos: Disposable
 
 	//TODO
@@ -29,8 +33,9 @@ class AllNewsFragmentPresenter @Inject constructor(val newsRepository: NewsRepos
 		view = null
 	}
 
-	fun showNews(country: String = "us", category: String = "business") {
-
+	fun showNews() {
+		//ToDO: мы получили параметры q- ключевое слово, country - страна, category - категория
+		// Todo: неоходимо передать их репозиторию, чтобы он достал по этим ключевым словам инфу
 		newsDispos = newsRepository.getHeadLines(country, category)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())

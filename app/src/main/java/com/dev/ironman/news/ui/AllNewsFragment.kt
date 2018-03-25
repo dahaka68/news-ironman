@@ -20,6 +20,7 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
     @Inject
     lateinit var allNewsFragmentPresenter: AllNewsFragmentPresenter
 
+
     private val adapter: AllNewsAdapter by lazy {
         AllNewsAdapter(this)
     }
@@ -29,6 +30,8 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         daggerComponent.inject(this)
+
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +44,10 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
 
         rcvnewsTitlesList.layoutManager = linearLayoutManager
         rcvnewsTitlesList.adapter = adapter
+
+        allNewsFragmentPresenter.country = arguments?.getString("country") ?: ""
+        allNewsFragmentPresenter.category = arguments?.getString("category") ?: ""
+        allNewsFragmentPresenter.q = arguments?.getString("q") ?: ""
 
         allNewsFragmentPresenter.attachView(this)
         allNewsFragmentPresenter.showNews()

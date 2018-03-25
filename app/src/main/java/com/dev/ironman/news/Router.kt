@@ -42,4 +42,15 @@ class Router(val context: Context) {
 
 	fun isCurFragNews() = fragmentManager.findFragmentById(R.id.frameForFragments) is AllNewsFragment
 
+
+	fun showNewsFragment(map: Map<String, String>?) {
+		val fragment= AllNewsFragment()
+		val args=Bundle()
+		args.putString("category", map?.get("category"))
+		args.putString("country", map?.get("country"))
+		args.putString("q", map?.get("q"))
+		fragment.arguments=args
+		doTransaction(fragment, true, "All")
+	}
+
 }

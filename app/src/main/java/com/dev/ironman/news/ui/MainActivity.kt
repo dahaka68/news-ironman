@@ -24,6 +24,17 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
         daggerComponent.inject(this)
         mainPresenter.router.fragmentManager = supportFragmentManager
+
+        btSearch.setOnClickListener({ mainPresenter.loadNewsWithFilter() })
+    }
+
+    override fun takeFilterParams(): Map<String, String> {
+
+        val map=HashMap<String, String>()
+        map.put("category", spCategory.getSelectedItem().toString())
+        map.put("country", spCountry.getSelectedItem().toString())
+        map.put("q", edSeach.text.toString())
+        return map
     }
 
     override fun isTablet(): Boolean {
