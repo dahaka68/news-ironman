@@ -13,7 +13,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NewsRepository @Inject constructor(private val newsDAO: NewsDAO, private val restInteractor: RestInteractor, private val netCheck: NetwrorkVerify) : NewsDataSourcerable {
+class NewsRepository @Inject constructor(private val newsDAO: NewsDAO,
+                                         private val restInteractor: RestInteractor,
+                                         private val netCheck: NetwrorkVerify) : NewsDataSourcerable {
 
 	//получаем данные     возвращаем обсервбл
 	//READ this - I've changed to Koltin style
@@ -35,8 +37,7 @@ class NewsRepository @Inject constructor(private val newsDAO: NewsDAO, private v
 	fun saveInCache(dbArticlesItemList: List<DBArticlesItem>) = runBlocking {
 		val writingToDbjob = launch {
 			//TODO try catch were here
-			for (item in dbArticlesItemList)
-				newsDAO.insertAllArticles(item)
+			dbArticlesItemList.forEach { newsDAO.insertAllArticles(it) }
 		}
 		writingToDbjob.join()
 	}

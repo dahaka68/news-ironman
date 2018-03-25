@@ -10,7 +10,7 @@ import android.net.NetworkInfo
  */
 class NetwrorkVerify(val context: Application) {
 
-	//TODO better (it's not complete checkeing if the internet there's
+	//TODO better (it's not complete checking if the internet there's
 	fun checkInternet(): Boolean {
 		val wifiCheck: NetworkInfo?
 		val connectionManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
