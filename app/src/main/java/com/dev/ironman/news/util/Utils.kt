@@ -1,6 +1,7 @@
 package com.dev.ironman.news.util
 
 import android.app.Activity
+import android.content.Context
 import android.support.v4.app.Fragment
 import android.widget.Toast
 import com.dev.ironman.news.App
@@ -16,10 +17,14 @@ val Activity.daggerComponent: AppComponent
         return (applicationContext as App).daggerComponent
     }
 
-fun Activity.toast(message: String){
-    Toast.makeText(this, message , Toast.LENGTH_LONG).show()
+fun Activity.toast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
 
-fun Fragment.toast(message: String){
-    Toast.makeText(requireContext().applicationContext as App, message , Toast.LENGTH_LONG).show()
+fun Fragment.toast(message: String) {
+    Toast.makeText(requireContext().applicationContext as App, message, Toast.LENGTH_LONG).show()
+}
+
+fun Fragment.getPrefs(tag: String): String {
+    return (requireContext().applicationContext as App).getSharedPreferences(tag, Context.MODE_PRIVATE).getString(tag, null)
 }

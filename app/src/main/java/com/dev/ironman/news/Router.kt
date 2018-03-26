@@ -20,8 +20,8 @@ class Router(val context: Context) {
 
 	fun showDetailWebViewFragment(url: String) {
 		val details = WebViewFragment()
-
 		val args = Bundle()
+		context.getSharedPreferences(URL, Context.MODE_PRIVATE).edit().putString(URL, url).apply()
 		args.putString(URL, url)
 		details.arguments = args
 		doTransaction(details, true, DET)
@@ -41,5 +41,4 @@ class Router(val context: Context) {
 	fun remove() = fragmentManager.popBackStack()
 
 	fun isCurFragNews() = fragmentManager.findFragmentById(R.id.frameForFragments) is AllNewsFragment
-
 }

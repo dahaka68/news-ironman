@@ -14,67 +14,84 @@ import com.dev.ironman.news.mvp.presenters.WebFragmentPresenter
 import com.dev.ironman.news.mvp.views.WebFragmentView
 import com.dev.ironman.news.util.URL
 import com.dev.ironman.news.util.daggerComponent
+import com.dev.ironman.news.util.getPrefs
 import kotlinx.android.synthetic.main.fragment_web_view.*
 import javax.inject.Inject
 
 class WebViewFragment : Fragment(), WebFragmentView {
 
-	@Inject
-	lateinit var webFragPresenter: WebFragmentPresenter
-	lateinit var url: String
+    @Inject
+    lateinit var webFragPresenter: WebFragmentPresenter
+    lateinit var url: String
+//    lateinit var webViewBundle: Bundle
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		daggerComponent.inject(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        daggerComponent.inject(this)
+        url = arguments?.getString(URL) ?: ""
+    }
 
-		url = arguments?.getString(URL) ?: ""
-	}
+    override fun onPause() {
+        super.onPause()
+//        webViewBundle = Bundle()
+//        webview.saveState(webViewBundle)
+    }
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-	                          savedInstanceState: Bundle?): View? {
-		return inflater.inflate(R.layout.fragment_web_view, container, false)
-	}
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_web_view, container, false)
+    }
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		setWebViewClients()
-		webFragPresenter.attachView(this)
-	}
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setWebViewClients()
+        webFragPresenter.attachView(this)
 
-	private fun setWebViewClients() {
-		webview.webViewClient = object : WebViewClient() {
-			override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?) = false
-		}
+        if (savedInstanceState == null)
+            webview.loadUrl(getPrefs(URL))
+//        else
+//            webview.loadUrl(getPrefs(URL))
+//        if (webViewBundle == null) {
+//            webview.loadUrl(getPrefs(URL))
+//        } else {
+//            webview.restoreState(webViewBundle)
+//        }
+    }
 
-		webview.webChromeClient = object : WebChromeClient() {
-			override fun onProgressChanged(view: WebView, progress: Int) {
-				if (progress == 100)
-					webFragPresenter.hideProgress()
-			}
-		}
-	}
+    private fun setWebViewClients() {
+        webview.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?) = false
+        }
 
-	override fun hideProgress() {
-		prBarWeb.visibility = View.GONE
-	}
+        webview.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView, progress: Int) {
+                if (progress == 100)
+                    webFragPresenter.hideProgress()
+            }
+        }
+    }
 
-	override fun onDestroyView() {
-		super.onDestroyView()
-		webFragPresenter.detachView()
-	}
+    override fun hideProgress() {
+        prBarWeb.visibility = View.GONE
+    }
 
-	override fun showContent() {
-		if (url != "") webview.loadUrl(url)
-	}
+    override fun onDestroyView() {
+        super.onDestroyView()
+        webFragPresenter.detachView()
+    }
 
-	//webViewCache
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//        webView.saveState(outState)
-//    }
-//
-//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-//        super.onViewStateRestored(savedInstanceState)
-//        webView.restoreState(savedInstanceState)
-//    }
+    override fun showContent() {
+        if (url != "") webview.loadUrl(url)
+    }
+
+    //webViewCache
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        webview.saveState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        webview.restoreState(savedInstanceState)
+    }
 }

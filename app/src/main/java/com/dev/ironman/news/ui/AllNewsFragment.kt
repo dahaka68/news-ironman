@@ -43,12 +43,12 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
         super.onViewCreated(view, savedInstanceState)
         rcvnewsTitlesList.layoutManager = linearLayoutManager
         rcvnewsTitlesList.adapter = adapter
-        initSwipeToRef()
+        initSwipeToRefresh()
         allNewsFragmentPresenter.attachView(this)
         allNewsFragmentPresenter.showNews("us", "business", false)
     }
 
-    private fun initSwipeToRef() {
+    private fun initSwipeToRefresh() {
         swipeOnRef.setOnRefreshListener {
             swipeOnRef.isRefreshing = true
             allNewsFragmentPresenter.showNews("us", "business", true)

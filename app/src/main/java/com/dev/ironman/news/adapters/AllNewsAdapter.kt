@@ -24,7 +24,6 @@ class AllNewsAdapter(private val iDetail: IDetail) : RecyclerView.Adapter<AllNew
 
 	override fun getItemCount() = if (this::listOfNews.isInitialized) listOfNews.size else 0
 
-
 	override fun onBindViewHolder(holder: NewHolder, position: Int) {
 		holder.setNewsItem(listOfNews[position])
 	}
@@ -41,7 +40,6 @@ class AllNewsAdapter(private val iDetail: IDetail) : RecyclerView.Adapter<AllNew
 				newsContainer.setOnClickListener {
 					iDetail.goToDetail(cardView.link.text.toString())
 				}
-
 				Glide.with(contextIn)
 						.load(news.urlToImage)
 						.apply(RequestOptions()
