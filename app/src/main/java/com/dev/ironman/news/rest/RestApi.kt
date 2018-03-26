@@ -13,15 +13,7 @@ interface RestApi {
                      @Query("category") category: String): Observable<NewsHeadLinesResponse>
 
     @GET("top-headlines")
-    fun getHeadLines(@Query("q") searchWord: String): Observable<NewsHeadLinesResponse>
-
-    @GET("top-headlines")
-    fun getHeadLines(@Query("country") country: String,
-                     @Query("category") category: String,
-                     @Query("sources") sources: String,
-                     @Query("q") searchWord: String,
-                     @Query("pageSize") pageSize: String,
-                     @Query("page") page: String): Observable<NewsHeadLinesResponse>
+    fun getHeadLines(@Query("q") keyWord: String): Observable<NewsHeadLinesResponse>
 
     @GET("everything")
     fun getEveryThing(@Query("q") q: String): Observable<NewsHeadLinesResponse>

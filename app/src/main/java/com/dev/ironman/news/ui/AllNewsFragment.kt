@@ -43,15 +43,22 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
         super.onViewCreated(view, savedInstanceState)
         rcvnewsTitlesList.layoutManager = linearLayoutManager
         rcvnewsTitlesList.adapter = adapter
-        initSwipeToRefresh()
         allNewsFragmentPresenter.attachView(this)
-        allNewsFragmentPresenter.showNews("us", "business", false)
+        initSwipeToRefresh()
+        showNewsOnStart(false)
+    }
+
+    private fun showNewsOnStart(needToRefresh: Boolean) {
+        allNewsFragmentPresenter.country = arguments?.getString("country") ?: ""
+        allNewsFragmentPresenter.category = arguments?.getString("category") ?: ""
+        allNewsFragmentPresenter.q = arguments?.getString("q") ?: ""
+        allNewsFragmentPresenter.showNews(needToRefresh)
     }
 
     private fun initSwipeToRefresh() {
         swipeOnRef.setOnRefreshListener {
             swipeOnRef.isRefreshing = true
-            allNewsFragmentPresenter.showNews("us", "business", true)
+            showNewsOnStart(true)
         }
         swipeOnRef.setColorSchemeResources(android.R.color.holo_blue_dark,
                 android.R.color.holo_blue_light,
@@ -66,7 +73,6 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
     override fun onDestroyView() {
         super.onDestroyView()
         savePosition()
-        //TODO this !
         rcvnewsTitlesList.layoutManager = null
         allNewsFragmentPresenter.detachView()
     }

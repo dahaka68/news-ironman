@@ -74,6 +74,9 @@ dependencies {
         transitive = false
     }
 
+    //CustomTabs
+    implementation "com.android.support:customtabs:26.1.0"
+
     //TEST
     /*  testImplementation 'junit:junit:4.12'
       androidTestImplementation 'com.android.support.test:runner:1.0.1'

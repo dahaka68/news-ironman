@@ -7,7 +7,7 @@ import io.reactivex.Observable
 
 interface NewsDataSourcerable {
 
-    fun getNews(country: String, category: String): List<DBArticlesItem>
+    fun getNews(q: String, country: String, category: String): List<DBArticlesItem>
 
 //    fun getNewsByValue(value: String): List<DBArticlesItem>
 //

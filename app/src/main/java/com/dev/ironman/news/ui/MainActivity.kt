@@ -7,6 +7,7 @@ import com.dev.ironman.news.R
 import com.dev.ironman.news.util.daggerComponent
 import com.dev.ironman.news.mvp.presenters.MainActivityPresenter
 import com.dev.ironman.news.mvp.views.MainActivityView
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainActivityView {
@@ -17,8 +18,22 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        setSupportActionBar(anim_toolbar);
+        collapsing_toolbar.setTitle("News Filter");
+
         daggerComponent.inject(this)
         mainPresenter.router.fragmentManager = supportFragmentManager
+
+        btSearch.setOnClickListener({ mainPresenter.loadNewsWithFilter() })
+    }
+
+    override fun takeFilterParams(): Map<String, String> {
+        val map=HashMap<String, String>()
+        map.put("category", spCategory.getSelectedItem().toString())
+        map.put("country", spCountry.getSelectedItem().toString())
+        map.put("q", edSeach.text.toString())
+        return map
     }
 
     override fun isTablet(): Boolean {

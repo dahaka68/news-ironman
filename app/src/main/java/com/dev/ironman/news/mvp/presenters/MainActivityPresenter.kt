@@ -21,6 +21,10 @@ class MainActivityPresenter(val router: Router) : IPresenter<MainActivityView> {
 		view = null
 	}
 
+	fun loadNewsWithFilter(){
+		router.showNewsFragment(view?.takeFilterParams())
+	}
+
 	fun isNotFragmentsInContainer() = router.isNotFragmentsInContainer()
 }
 

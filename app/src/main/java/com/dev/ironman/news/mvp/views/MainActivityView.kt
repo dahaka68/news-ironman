@@ -4,4 +4,6 @@ interface MainActivityView {
 
     fun isTablet(): Boolean
 
+    fun takeFilterParams(): Map<String, String>
+
 }

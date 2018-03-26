@@ -19,6 +19,10 @@ class AllNewsFragmentPresenter
 
     var position = 0
     private val cashList = mutableListOf<DBArticlesItem>()
+    var q = ""
+    var country = ""
+    var category = ""
+
     var view: AllNewsFragmentView? = null
 
     override fun attachView(view: AllNewsFragmentView) {
@@ -30,21 +34,21 @@ class AllNewsFragmentPresenter
         view = null
     }
 
-    fun showNews(country: String, category: String, needFromNet: Boolean) {
-        if(!needFromNet){
+    fun showNews(swipeToRef: Boolean) {
+        if (!swipeToRef) {
             view?.showProgress()
         }
-        if (cashList.isNotEmpty() && !needFromNet) {
+        if (cashList.isNotEmpty() && !swipeToRef) {
             view?.showAllNews(cashList)
             view?.hideProgress()
         } else {
-            if (newsRepository.getNews(country, category).isNotEmpty() && !needFromNet) {
-                view?.showAllNews(newsRepository.getNews(country, category))
-                cashList.addAll(newsRepository.getNews(country, category))
+            if (newsRepository.getNews(q, country, category).isNotEmpty() && !swipeToRef) {
+                view?.showAllNews(newsRepository.getNews(q, country, category))
+                cashList.addAll(newsRepository.getNews(q, country, category))
                 view?.hideProgress()
             } else {
                 if (netCheck.isNetWorkAvailable()) {
-                    newsRepository.requestNewsFromNet(country, category)
+                    newsRepository.requestNewsFromNet(q, country, category)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(

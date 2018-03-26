@@ -28,26 +28,26 @@ class AllNewsAdapter(private val iDetail: IDetail) : RecyclerView.Adapter<AllNew
 		holder.setNewsItem(listOfNews[position])
 	}
 
-	class NewHolder(private val contextIn: Context, private val cardView: CardView, private val iDetail: IDetail) : RecyclerView.ViewHolder(cardView) {
+    class NewHolder(private val contextIn: Context, private val cardView: CardView, private val iDetail: IDetail) : RecyclerView.ViewHolder(cardView) {
 
 		fun setNewsItem(news: DBArticlesItem) {
 
-			cardView.apply {
-				tvAuthor.text = "${context.resources.getString(R.string.Author)} ${news.author}"
-				tvDescription.text = news.description
-				tvTitle.text = news.title
-				link.text = news.url
+            cardView.apply {
+                tvAuthor.text = "${context.resources.getString(R.string.Author)} ${news.author}"
+                tvDescription.text = news.description
+                tvTitle.text = news.title
+                link.text = news.url
 				newsContainer.setOnClickListener {
-					iDetail.goToDetail(cardView.link.text.toString())
-				}
-				Glide.with(contextIn)
-						.load(news.urlToImage)
-						.apply(RequestOptions()
-								.placeholder(R.mipmap.ic_nophoto)
-								.error(R.mipmap.ic_error)
-								.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
-						.into(ivPhoto)
-			}
-		}
-	}
+                    iDetail.goToDetail(cardView.link.text.toString())
+                }
+                Glide.with(contextIn)
+                        .load(news.urlToImage)
+                        .apply(RequestOptions()
+                                .placeholder(R.mipmap.ic_nophoto)
+                                .error(R.mipmap.ic_error)
+                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
+                        .into(ivPhoto)
+            }
+        }
+    }
 }

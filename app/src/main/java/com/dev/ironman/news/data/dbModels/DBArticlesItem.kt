@@ -10,23 +10,23 @@ data class DBArticlesItem(
 
         @PrimaryKey
         @ColumnInfo(name = "publishedAt")
-        var publishedAt: Long = 0L,
+        var publishedAt: Long,
 
         @ColumnInfo(name = "author")
-        var author: String = "",
+        var author: String,
 
         @ColumnInfo(name = "urlToImage")
-        var urlToImage: String = "",
+        var urlToImage: String,
 
         @ColumnInfo(name = "description")
-        var description: String = "",
+        var description: String,
 
         @ColumnInfo(name = "title")
-        var title: String = "",
+        var title: String,
 
         @ColumnInfo(name = "url")
-        var url: String = "",
+        var url: String,
 
         @ColumnInfo(name = "favourite")
-        var favourite: Int = 0
+        var favourite: Int
 )

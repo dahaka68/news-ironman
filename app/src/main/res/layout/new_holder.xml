@@ -11,6 +11,7 @@
     <LinearLayout
         android:id="@+id/newsContainer"
         android:layout_width="match_parent"
+        android:background="@color/news_holder_color"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 

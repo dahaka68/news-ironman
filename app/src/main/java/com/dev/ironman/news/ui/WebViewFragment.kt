@@ -23,18 +23,11 @@ class WebViewFragment : Fragment(), WebFragmentView {
     @Inject
     lateinit var webFragPresenter: WebFragmentPresenter
     lateinit var url: String
-//    lateinit var webViewBundle: Bundle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         daggerComponent.inject(this)
         url = arguments?.getString(URL) ?: ""
-    }
-
-    override fun onPause() {
-        super.onPause()
-//        webViewBundle = Bundle()
-//        webview.saveState(webViewBundle)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -46,16 +39,6 @@ class WebViewFragment : Fragment(), WebFragmentView {
         super.onViewCreated(view, savedInstanceState)
         setWebViewClients()
         webFragPresenter.attachView(this)
-
-        if (savedInstanceState == null)
-            webview.loadUrl(getPrefs(URL))
-//        else
-//            webview.loadUrl(getPrefs(URL))
-//        if (webViewBundle == null) {
-//            webview.loadUrl(getPrefs(URL))
-//        } else {
-//            webview.restoreState(webViewBundle)
-//        }
     }
 
     private fun setWebViewClients() {
@@ -84,14 +67,14 @@ class WebViewFragment : Fragment(), WebFragmentView {
         if (url != "") webview.loadUrl(url)
     }
 
-    //webViewCache
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        webview.saveState(outState)
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        webview.restoreState(savedInstanceState)
-    }
+//    //webViewCache
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        webview.saveState(outState)
+//    }
+//
+//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+//        super.onViewStateRestored(savedInstanceState)
+//        webview.restoreState(savedInstanceState)
+//    }
 }
