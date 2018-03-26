@@ -7,8 +7,8 @@
     <string name="author_form">неизвестоно</string>
     <string name="country">Страна</string>
     <string name="filter_icon">фильтр</string>
-    <string name="enter_key_word">dg</string>
     <string name="share">поделиться</string>
     <string name="category">Категория</string>
     <string name="search">поиск</string>
+    <string name="enter_key_word">Поиск по</string>
 </resources>
