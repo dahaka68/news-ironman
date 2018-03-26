@@ -75,7 +75,7 @@ dependencies {
     }
 
     //CustomTabs
-    implementation "com.android.support:customtabs:26.1.0"
+    implementation "com.android.support:customtabs:27.1.0"
 
     //TEST
     /*  testImplementation 'junit:junit:4.12'
