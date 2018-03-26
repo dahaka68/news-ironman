@@ -1,5 +1,6 @@
 package com.dev.ironman.news.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -11,10 +12,7 @@ import com.dev.ironman.news.adapters.AllNewsAdapter
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import com.dev.ironman.news.mvp.presenters.AllNewsFragmentPresenter
 import com.dev.ironman.news.mvp.views.AllNewsFragmentView
-import com.dev.ironman.news.util.ERROR_FROM_NET
-import com.dev.ironman.news.util.NO_INTERNET
-import com.dev.ironman.news.util.daggerComponent
-import com.dev.ironman.news.util.toast
+import com.dev.ironman.news.util.*
 import kotlinx.android.synthetic.main.fragment_all_news.*
 import javax.inject.Inject
 
@@ -45,7 +43,11 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
         rcvnewsTitlesList.adapter = adapter
         allNewsFragmentPresenter.attachView(this)
         initSwipeToRefresh()
-        showNewsOnStart(false)
+        if (getPrefs(REFRESH) == "") {
+            showNewsOnStart(false)
+        } else {
+            showNewsOnStart(true)
+        }
     }
 
     private fun showNewsOnStart(needToRefresh: Boolean) {

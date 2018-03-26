@@ -7,6 +7,7 @@ const val HEADER = "X-Api-Key"
 const val DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'"
 const val NO_INTERNET = "no_internet"
 const val ERROR_FROM_NET = "error"
+const val REFRESH = "refresh"
 
 
 

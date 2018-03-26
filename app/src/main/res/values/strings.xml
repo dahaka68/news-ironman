@@ -4,6 +4,11 @@
     <string name="server_error">No data!</string>
     <string name="Author">Author:</string>
     <string name="author_form">unknown</string>
+    <string name="filter_icon">filter</string>
+    <string name="country">Country:</string>
+    <string name="category">Category:</string>
+    <string name="enter_key_word">Enter key word</string>
+    <string name="search">Search</string>
 
     <string-array name="countries">
         <item>ae</item>
