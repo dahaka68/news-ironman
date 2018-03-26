@@ -4,6 +4,7 @@
     <string name="server_error">No data!</string>
     <string name="Author">Author:</string>
     <string name="author_form">unknown</string>
+    <string name="share">share</string>
 
     <string-array name="countries">
         <item>ae</item>

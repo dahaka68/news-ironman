@@ -1,6 +1,7 @@
 package com.dev.ironman.news.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.dev.ironman.news.R
 import com.dev.ironman.news.data.dbModels.DBArticlesItem
 import com.dev.ironman.news.ui.IDetail
 import kotlinx.android.synthetic.main.new_holder.view.*
+
 
 class AllNewsAdapter(private val iDetail: IDetail) : RecyclerView.Adapter<AllNewsAdapter.NewHolder>() {
 
@@ -28,26 +30,40 @@ class AllNewsAdapter(private val iDetail: IDetail) : RecyclerView.Adapter<AllNew
 		holder.setNewsItem(listOfNews[position])
 	}
 
-    class NewHolder(private val contextIn: Context, private val cardView: CardView, private val iDetail: IDetail) : RecyclerView.ViewHolder(cardView) {
+	class NewHolder(private val contextIn: Context, private val cardView: CardView, private val iDetail: IDetail) : RecyclerView.ViewHolder(cardView) {
 
 		fun setNewsItem(news: DBArticlesItem) {
 
-            cardView.apply {
-                tvAuthor.text = "${context.resources.getString(R.string.Author)} ${news.author}"
-                tvDescription.text = news.description
-                tvTitle.text = news.title
-                link.text = news.url
+			cardView.apply {
+				tvAuthor.text = "${context.resources.getString(R.string.Author)} ${news.author}"
+				tvDescription.text = news.description
+				tvTitle.text = news.title
+				link.text = news.url
 				newsContainer.setOnClickListener {
-                    iDetail.goToDetail(cardView.link.text.toString())
-                }
-                Glide.with(contextIn)
-                        .load(news.urlToImage)
-                        .apply(RequestOptions()
-                                .placeholder(R.mipmap.ic_nophoto)
-                                .error(R.mipmap.ic_error)
-                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
-                        .into(ivPhoto)
-            }
-        }
-    }
+					iDetail.goToDetail(cardView.link.text.toString())
+				}
+				Glide.with(contextIn)
+						.load(news.urlToImage)
+						.apply(RequestOptions()
+								.placeholder(R.mipmap.ic_nophoto)
+								.error(R.mipmap.ic_error)
+								.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
+						.into(ivPhoto)
+
+
+				sendButton.setOnClickListener {
+
+					val sendIntent = Intent()
+					sendIntent.action = Intent.ACTION_SEND
+					sendIntent.putExtra(Intent.EXTRA_TEXT, news.urlToImage)
+					sendIntent.type = "text/plain"
+					sendIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+					sendIntent.resolveActivity(contextIn.packageManager)?.let {
+						contextIn.startActivity(Intent.createChooser(sendIntent, "Share with Friends"))
+					}
+					
+				}
+			}
+		}
+	}
 }

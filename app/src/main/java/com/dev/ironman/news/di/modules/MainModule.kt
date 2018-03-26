@@ -31,16 +31,6 @@ class MainModule {
     @Singleton
     fun provideMainActivityPresenter(router: Router) = MainActivityPresenter(router)
 
-//    @Provides
-//    @Singleton
-//    @Named("1")
-//    fun provide1() = "1"
-//
-//    @Provides
-//    @Singleton
-//    @Named("2")
-//    fun provide2() = "2"
-
     @Provides
     @Singleton
     fun provideAllNewsFragmentPresenter(newsRepository: NewsRepository, router: Router, netCheck: NetworkVerify)
