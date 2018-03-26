@@ -1,5 +1,6 @@
 package com.dev.ironman.news.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -42,7 +43,7 @@ class AllNewsFragment : Fragment(), AllNewsFragmentView, IDetail {
         rcvnewsTitlesList.adapter = adapter
         allNewsFragmentPresenter.attachView(this)
         initSwipeToRefresh()
-        if (getPrefs(REFRESH) == "") {
+        if (activity?.getSharedPreferences(tag, Context.MODE_PRIVATE) != null) {
             showNewsOnStart(false)
         } else {
             showNewsOnStart(true)
